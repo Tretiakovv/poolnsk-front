@@ -17,6 +17,7 @@ const config: Config = {
                 "second": {
                     "light-blue": "#F2F6F9",
                     "gray": "#9EAFBB",
+                    "border-gray" : "#F2F2F2",
                     "gray-selected": "#1F1F1F"
                 },
                 "indicator": {

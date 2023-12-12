@@ -3,5 +3,5 @@
 @tailwind utilities;
 
 .root {
-  @apply bg-main-white;
+  @apply h-screen w-screen bg-main-white;
 }
