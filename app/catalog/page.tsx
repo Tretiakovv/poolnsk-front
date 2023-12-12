@@ -12,7 +12,7 @@ import {SortableItem} from "@/types/Sortable";
 import CatalogSectionRow from "@/components/organisms/catalog-section-row/CatalogSectionRow";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 
-const CatalogPage = () => {
+const CatalogSectionsPage = () => {
 
     const [
         published,
@@ -64,4 +64,4 @@ const CatalogPage = () => {
     
 };
 
-export default CatalogPage;
+export default CatalogSectionsPage;
