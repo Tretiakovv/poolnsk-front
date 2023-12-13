@@ -18,7 +18,7 @@ type HeaderRowProps = {
 const HeaderRow = (props : HeaderRowProps) => {
 
     const mainWrapperCV : ClassValue[] = [
-        "h-fit col-span-full flex flex-row pb-[30px] border-b-2",
+        "h-fit col-span-full flex flex-row items-center pb-[30px] border-b-2",
         "border-second-border-gray justify-between",
         props.classNames?.mainWrapper
     ]

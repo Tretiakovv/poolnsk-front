@@ -2,10 +2,9 @@ import React from 'react';
 import {closestCenter, DndContext} from "@dnd-kit/core";
 import {useSortableListWrapper} from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper.hooks";
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
-import {SortableItem} from "@/types/Sortable";
 
 type SortableListWrapperProps = {
-    items: SortableItem<any>[],
+    items: any & {orderId : number},
     children: React.ReactNode
 }
 

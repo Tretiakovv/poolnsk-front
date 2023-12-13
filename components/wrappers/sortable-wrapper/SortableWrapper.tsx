@@ -2,8 +2,9 @@ import React from 'react';
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from "@dnd-kit/utilities";
 
-const SortableWrapper = ({id, children} : {
+const SortableWrapper = ({id, onClick, children} : {
     id : number,
+    onClick ?: () => void,
     children : React.ReactNode,
 }) => {
 
@@ -34,7 +35,7 @@ const SortableWrapper = ({id, children} : {
     })
 
     return (
-        <div style={style} ref={setNodeRef}>
+        <div onClick={onClick} style={style} ref={setNodeRef}>
             {childrenWithRef()}
         </div>
     );
