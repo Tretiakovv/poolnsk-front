@@ -5,7 +5,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/components/atoms/text/Text";
 import Table from "@/components/organisms/table/Table";
-import {tableHeaders} from "@/data/salesPageData";
+import {salesPageTableHeaders} from "@/data/salesPageData";
 
 const SalesPage = () => {
 
@@ -44,7 +44,7 @@ const SalesPage = () => {
                 />
                 <Table
                     draggable
-                    tableHeader={tableHeaders}
+                    tableHeader={salesPageTableHeaders}
                     tableContent={sortablePromotions}
                 />
             </>
