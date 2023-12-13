@@ -1,4 +1,5 @@
-import type {Metadata} from 'next'
+"use client"
+
 import {Montserrat} from 'next/font/google'
 import './globals.css'
 import GridWrapper from "@/components/wrappers/grid-wrapper/GridWrapper";
@@ -6,12 +7,11 @@ import NavigationSidebar from "@/components/organisms/left-sidebar/NavigationSid
 import {ClassValue} from "clsx";
 import {cn} from "@/utils/cn";
 import React from "react";
+import {QueryClient, QueryClientProvider} from "react-query";
 
 const inter = Montserrat({subsets: ['cyrillic']})
 
-export const metadata: Metadata = {
-    title: 'POOLNSK'
-}
+const queryClient = new QueryClient()
 
 const RootLayout = ({children}: { children: React.ReactNode }) => {
 
@@ -23,12 +23,14 @@ const RootLayout = ({children}: { children: React.ReactNode }) => {
     return (
         <html lang="en">
             <body className={inter.className}>
+            <QueryClientProvider client={queryClient}>
                 <GridWrapper className={"grid grid-cols-15 gap-[30px]"}>
                     <NavigationSidebar />
                     <div className={cn(innerWrapperCV)}>
                         {children}
                     </div>
                 </GridWrapper>
+            </QueryClientProvider>
             </body>
         </html>
     )

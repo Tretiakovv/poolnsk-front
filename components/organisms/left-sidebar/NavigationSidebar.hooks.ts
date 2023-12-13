@@ -17,7 +17,6 @@ export const useNavigationSidebar = () => {
     }
 
     const activeItem = getActiveItem()
-    console.log(activeItem)
 
     return {activeItem, handleSelect}
 
