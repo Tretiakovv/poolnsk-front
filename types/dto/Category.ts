@@ -1,3 +1,5 @@
+import { ValueType } from "../ValueType"
+
 export type Category = {
     id : number,
     name : string,
@@ -9,7 +11,7 @@ export type Category = {
 export type CategoryProperty = {
     id : number,
     name : string,
-    valueType : "STRING" | "INTEGER" | "FLOAT",
+    valueType : ValueType,
     categoryId : number | null,
     top : boolean,
     value : any

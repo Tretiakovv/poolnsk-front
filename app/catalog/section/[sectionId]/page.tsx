@@ -2,43 +2,42 @@
 
 import React from 'react';
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import {FiX} from "react-icons/fi";
 import {useCategoriesPage} from "@/app/catalog/section/[sectionId]/page.hooks";
 import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
 import {categoryItems} from "@/data/catalogSectionHelperData";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
-import CatalogCategoryRow from "@/components/organisms/catalog-category-row/CatalogCategoryRow";
+import CatalogCategoryRow from "@/components/organisms/rows/catalog-category-row/CatalogCategoryRow";
+import Button from "@/components/atoms/buttons/button/Button";
 
-const CatalogCategoriesPage = ({params} : {
-    params : {
-        sectionId : number
+const CatalogCategoriesPage = ({params}: {
+    params: {
+        sectionId: number
     }
 }) => {
 
     const {
-        sortableItems,
-        handleClosePage
+        sortableItems, handleAddCategory,
+        handleDeleteClick, handleEditClick, handleItemClick
     } = useCategoriesPage(params.sectionId)
 
     return (
         <>
             <HeaderRow
+                backIcon
                 header={"Категории для раздела «Бассейны»"}
-                rightContent={
-                    <FiX
-                        size={"22px"}
-                        className={"hover:cursor-pointer stroke-main-black"}
-                        onClick={handleClosePage}
-                    />
-                }
             />
-            <HelperHintRow items={categoryItems} />
+            <HelperHintRow items={categoryItems}/>
             <SortableListWrapper items={sortableItems}>
                 {
                     sortableItems.map((item, index) => (
-                        <SortableWrapper id={item.orderId ?? index}>
+                        <SortableWrapper
+                            onClick={() => handleItemClick(item.id)}
+                            id={item.orderId ?? index}
+                        >
                             <CatalogCategoryRow
+                                onDelete={() => handleDeleteClick(item.id)}
+                                onEdit={() => handleEditClick(item.id)}
                                 key={item.orderId}
                                 category={item}
                             />
@@ -46,6 +45,11 @@ const CatalogCategoriesPage = ({params} : {
                     ))
                 }
             </SortableListWrapper>
+            <Button
+                className={"mt-[30px]"}
+                buttonText={"Добавить категорию"}
+                onClick={handleAddCategory}
+            />
         </>
     );
 

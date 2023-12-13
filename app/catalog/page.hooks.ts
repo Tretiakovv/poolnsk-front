@@ -21,10 +21,13 @@ export const useCatalogSectionsPage = () => {
 
     const handlePublish = () => setPublished(!published)
     const handleItemClick = (item : any & {id : number}) => router.push("/catalog/section/1")
+    const handleDeleteClick = (itemId : number) => console.log("DELETED")
+    const handleEditClick = (itemId : number) => console.log("EDITED")
 
     return {
         sortableItems, published,
-        handlePublish, handleItemClick
+        handlePublish, handleItemClick,
+        handleDeleteClick, handleEditClick
     }
 
 }

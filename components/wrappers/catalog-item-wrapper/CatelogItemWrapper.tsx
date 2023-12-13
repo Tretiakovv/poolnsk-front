@@ -13,8 +13,8 @@ type CatalogItemWrapperProps = {
 const CatalogItemWrapper = (props : CatalogItemWrapperProps) => {
 
     const mainWrapperCV: ClassValue[] = [
-        "hover:bg-second-border-gray hover:bg-opacity-30 hover:cursor-pointer",
-        "px-[30px] flex flex-row justify-between py-6"
+        "hover:bg-second-border-gray hover:bg-opacity-30",
+        "px-[30px] hover:cursor-pointer flex flex-row justify-between py-6",
     ]
 
     return (
@@ -32,10 +32,11 @@ const CatalogItemWrapper = (props : CatalogItemWrapperProps) => {
                     {props.children}
                 </div>
                 <div className={"flex flex-row items-center gap-2"}>
-                    <EditIcon onClick={() => console.log("CLICKED")}/>
-                    <DeleteIcon onClick={() => console.log("DELETED")}/>
+                    <EditIcon onClick={props.onEdit}/>
+                    <DeleteIcon onClick={props.onDelete}/>
                 </div>
             </div>
+            <div className={"mx-[30px] border-b-2 border-second-border-gray"}/>
         </div>
     );
 

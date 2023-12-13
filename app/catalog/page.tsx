@@ -6,7 +6,7 @@ import Text from "@/components/atoms/text/Text";
 import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
 import {sectionItems} from "@/data/catalogSectionHelperData";
 import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
-import CatalogSectionRow from "@/components/organisms/catalog-section-row/CatalogSectionRow";
+import CatalogSectionRow from "@/components/organisms/rows/catalog-section-row/CatalogSectionRow";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import {useCatalogSectionsPage} from "@/app/catalog/page.hooks";
 
@@ -14,7 +14,8 @@ const CatalogSectionsPage = () => {
 
     const {
         published, sortableItems,
-        handlePublish, handleItemClick
+        handlePublish, handleItemClick,
+        handleDeleteClick, handleEditClick
     } = useCatalogSectionsPage()
 
     return (
@@ -45,6 +46,8 @@ const CatalogSectionsPage = () => {
                             id={item.orderId ?? index}
                         >
                             <CatalogSectionRow
+                                onDelete={() => handleDeleteClick(item.id)}
+                                onEdit={() => handleEditClick(item.id)}
                                 key={item.orderId}
                                 section={item}
                             />

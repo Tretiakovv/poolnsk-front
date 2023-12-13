@@ -1,13 +1,27 @@
 import {useState} from "react";
-import {Section} from "@/types/dto/Section";
+import {ProductShort} from "@/types/dto/Product";
+import {prepareSortableItems} from "@/utils/prepareSortableItems";
+import {products} from "@/mock/catalogData";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {usePathname, useRouter} from "next/navigation";
 
-export const useProductsPage = (sectionId : number, categoryId : number) => {
+export const useCatalogProductsPage = (sectionId : number, categoryId : number) => {
+
+    const router : AppRouterInstance = useRouter()
+    const pathName : string = usePathname()
 
     const [
-        products,
-        setCategories
-    ] = useState<Section[]>([])
+        sortableItems,
+        setSortableItems
+    ] = useState<ProductShort[]>(prepareSortableItems(products) as ProductShort[])
 
-    return {products}
+    const handleEditClick = (itemId : number) => console.log("EDIT CLICK")
+    const handleDeleteClick = (itemId : number) => console.log("EDIT CLICK")
+    const handleAddProduct = () => router.push(pathName.concat("/new"))
+
+    return {
+        sortableItems, handleEditClick,
+        handleDeleteClick, handleAddProduct
+    }
 
 }

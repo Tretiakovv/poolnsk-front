@@ -1,15 +1,16 @@
 import {Section} from "@/types/dto/Section";
 import {Category} from "@/types/dto/Category";
+import {ProductShort} from "@/types/dto/Product";
 
-export const sections : Section[] = [
-    {name : "Бассейны", id : 150,},
-    {name : "Насосы", id : 150},
-    {name : "Кулеры", id : 150},
-    {name : "Финтифлюхи", id : 150},
-    {name : "Кукарачи", id : 150},
+export const sections: Section[] = [
+    {name: "Бассейны", id: 150,},
+    {name: "Насосы", id: 150},
+    {name: "Кулеры", id: 150},
+    {name: "Финтифлюхи", id: 150},
+    {name: "Кукарачи", id: 150},
 ]
 
-export const categories : Category[] = [
+export const categories: Category[] = [
     {
         "id": 1153,
         "name": "Композитные бассейны",
@@ -72,5 +73,24 @@ export const categories : Category[] = [
             }
         ]
     }
+]
+
+export const products: ProductShort[] = [
+    {
+        id: 1,
+        orderId: 1,
+        name: "Попа Ильи",
+        price: 200
+    }, {
+        id: 2,
+        orderId: 2,
+        name: "Фредди Фазбер",
+        price: 3000
+    }, {
+        id : 2,
+        orderId : 2,
+        name : "Гальванический элемент 20 шт.",
+        price : 50000
+    },
 
 ]
