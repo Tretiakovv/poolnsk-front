@@ -25,7 +25,7 @@ export const useSalesPage = () => {
         return promotions.map((item) => {
 
             const promotionType = item.createdByPhoto
-                ? "Акция-товар" : "Акция-картинка"
+                ? "Акция-картинка" : "Акция-товар"
 
             return new Object({
                 id : item.id,

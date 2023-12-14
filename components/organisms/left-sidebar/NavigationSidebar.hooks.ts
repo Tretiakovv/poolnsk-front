@@ -12,8 +12,12 @@ export const useNavigationSidebar = () => {
     const handleSelect = (item : TextLinkItem) => router.push(item.link)
 
     const getActiveItem = () : TextLinkItem => {
-        return sidebarTabData.find((item) =>
-            pathName.includes(item.link))!!
+        return <TextLinkItem>sidebarTabData.find((item) => {
+            const lastSlashIndex = item.link.lastIndexOf('/')
+            const slicedRoute = item.link.slice(0, lastSlashIndex)
+            const sublink = slicedRoute !== "" ? slicedRoute : item.link
+            return pathName.includes(sublink)
+        })
     }
 
     const activeItem = getActiveItem()

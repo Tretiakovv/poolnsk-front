@@ -5,5 +5,5 @@ export const sidebarTabData: TextLinkItem[] = [
     {text: "Сотрудники", link: "/workers"},
     {text: "Наши работы", link: "/our-projects"},
     {text: "Акции", link: "/sales"},
-    {text: "Панель управления", link: "/control-panel"},
+    {text: "Панель управления", link: "/control-panel/requests"},
 ]

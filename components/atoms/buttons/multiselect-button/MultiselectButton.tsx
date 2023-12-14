@@ -4,13 +4,14 @@ import {cn} from "@/utils/cn";
 
 export type MultiselectButtonItem = {
     buttonText: string
-    action: () => void
+    action ?: () => void
 }
 
 type MultiselectButtonProps = {
     items: MultiselectButtonItem[],
     activeItem: MultiselectButtonItem,
-    setActiveItem: (item: MultiselectButtonItem) => void
+    setActiveItem: (item: MultiselectButtonItem) => void,
+    className ?: string,
 }
 
 const MultiselectButton = (props: MultiselectButtonProps) => {
@@ -18,12 +19,13 @@ const MultiselectButton = (props: MultiselectButtonProps) => {
     const buttonItemCV: ClassValue[] = [
         "text-main-black font-medium border-2 border-r-0 border-second-border-gray px-8 py-3",
         "transition hover:duration-200 hover:bg-second-border-gray hover:cursor-pointer",
+        props.className
     ]
 
     console.log(props.activeItem)
 
     return (
-        <div className={"w-full flex flex-row items-center gap-0"}>
+        <div className={"flex flex-row items-center gap-0"}>
             {
                 props.items.map((item, index) => {
 
@@ -37,7 +39,7 @@ const MultiselectButton = (props: MultiselectButtonProps) => {
                         <div
                             onClick={() => {
                                 props.setActiveItem(item)
-                                item.action()
+                                item.action && item.action()
                             }}
                             className={cn(buttonItemCV, activeItemCV)}
                         >

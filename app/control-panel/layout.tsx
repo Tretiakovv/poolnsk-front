@@ -3,28 +3,46 @@
 import MultiselectButton, {
     MultiselectButtonItem
 } from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
-import {useState} from "react";
+import React, {useState} from "react";
+import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
+import {useRouter} from "next/navigation";
+import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 
-const ControlPageLayout = () => {
+const ControlPageLayout = ({children} : {
+    children : React.ReactNode
+}) => {
 
-    const items : MultiselectButtonItem[] = [
-        {buttonText : "Илья Катешов", action : () => console.log("Лох")},
-        {buttonText : "Никита", action : () => console.log("Крутой")},
-        {buttonText : "Артём", action : () => console.log("Ещё круче")},
+    const router : AppRouterInstance = useRouter()
+
+    const tabs : MultiselectButtonItem[] = [
+        {
+            buttonText : "Заявки",
+            action : () => router.push('/control-panel/requests')
+        },
+        {
+            buttonText : "Заказы",
+            action : () => router.push('/control-panel/orders')
+        }
     ]
 
     const [
         activeItem,
         setActiveItem
-    ] = useState<MultiselectButtonItem>(items[0])
+    ] = useState<MultiselectButtonItem>(tabs[0])
 
     return (
         <>
-            <MultiselectButton
-                items={items}
-                activeItem={activeItem}
-                setActiveItem={setActiveItem}
+            <HeaderRow
+                header={"Панель управления"}
+                leftContent={
+                    <MultiselectButton
+                        setActiveItem={setActiveItem}
+                        activeItem={activeItem}
+                        items={tabs}
+                    />
+                }
             />
+            {children}
         </>
     );
 
