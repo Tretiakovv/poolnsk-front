@@ -12,7 +12,7 @@ const config: Config = {
                 "main": {
                     "black": "#101010",
                     "white": "#FFFFFF",
-                    "blue": "#0F8FEB"
+                    "blue": "#0F8FEB",
                 },
                 "second": {
                     "light-blue": "#F2F6F9",
@@ -22,7 +22,11 @@ const config: Config = {
                 },
                 "indicator": {
                     "new": "#18E1A5",
-                    "delete": "#F94464"
+                    "delete": "#F94464",
+                    "green-light" : "#F0FCF0",
+                    "red-light" : "#FFF2F2",
+                    "text-green" : "#00C100",
+                    "text-red" : "#FF0000"
                 }
             },
             gridTemplateColumns: {

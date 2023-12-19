@@ -20,7 +20,7 @@ const RootLayout = ({children}: { children: React.ReactNode }) => {
         "col-span-full pr-[30px] py-[30px]"
     ]
 
-    return (
+    return (    
         <html lang="en">
             <body className={inter.className}>
             <QueryClientProvider client={queryClient}>

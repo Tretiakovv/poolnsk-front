@@ -1,0 +1,78 @@
+import {Order, OrderStatus} from "@/types/dto/Order";
+import {cn} from "@/utils/cn";
+import Button from "@/components/atoms/buttons/button/Button";
+import {getOrderStatusText} from "@/utils/getOrderStatusText";
+import Text from "@/components/atoms/text/Text";
+import {
+    useOrderCardHeaderRow
+} from "@/components/organisms/cards/order-card/order-card-header-row/OrderCardHeaderRow.hooks";
+import {ClassValue} from "clsx";
+
+type OrderStatusButton = {
+    name: string,
+    style: string,
+    action: () => void
+}
+
+const OrderCardHeaderRow = ({order}: {
+    order: Order
+}) => {
+
+    const context = useOrderCardHeaderRow(order.id)
+
+    const orderTypeButtonMap: Record<OrderStatus, OrderStatusButton> = {
+        "IN_PROCESSING": {
+            name: "Подтвердить", action: context.handleAcceptOrder,
+            style: "bg-indicator-green-light text-indicator-text-green"
+        },
+        "ACTIVE": {
+            name: "Завершить", action: context.handleCloseOrder,
+            style: "bg-second-light-blue text-main-black"
+        }
+    }
+
+    const fullName = order.name + " " + order.surname
+    const status = getOrderStatusText(order.status)
+    const orderTypeButton = orderTypeButtonMap[order.status]
+
+    const headerRowCV: ClassValue[] = [
+        "flex flex-row justify-between items-center pb-5",
+        "border-b-2 border-second-border-gray"
+    ]
+
+    return (
+        <div className={cn(headerRowCV)}>
+
+            <div className={"flex flex-row items-center gap-3"}>
+                <Text text={`Заказ №${order.id}`} className={"text-base text-main-black"}/>
+                <div className={"w-1 h-1 rounded-full bg-second-gray"}/>
+                <Text text={fullName} className={"text-base text-main-black"}/>
+                <div className={"w-1 h-1 rounded-full bg-second-gray"}/>
+                <Text text={status} className={"text-base text-main-black"}/>
+            </div>
+
+            <div className={"flex flex-row items-center gap-2"}>
+                {
+                    (order.status === "IN_PROCESSING" || order.status === "ACTIVE") &&
+                    <>
+                        <Button
+                            className={orderTypeButton.style}
+                            buttonText={orderTypeButton.name}
+                            onClick={orderTypeButton.action}
+                        />
+                        <Button
+                            buttonText={"Отменить"}
+                            onClick={context.handleRejectOrder}
+                            className={"bg-indicator-red-light text-indicator-text-red"}
+                        />
+                    </>
+
+                }
+            </div>
+
+        </div>
+    );
+
+};
+
+export default OrderCardHeaderRow;

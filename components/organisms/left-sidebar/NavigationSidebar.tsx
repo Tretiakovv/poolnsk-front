@@ -11,7 +11,7 @@ const NavigationSidebar = () => {
     const {activeItem, handleSelect} = useNavigationSidebar()
 
     return (
-        <div className={"h-screen bg-main-black flex flex-col py-12 px-8 justify-between col-span-3"}>
+        <div className={"fixed h-screen bg-main-black flex flex-col py-12 px-8 justify-between col-span-3"}>
             <div className={"flex flex-col gap-11"}>
                 <PoolNskLogo/>
                 <div className={"flex flex-col gap-5"}>
