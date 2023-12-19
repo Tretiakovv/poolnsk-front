@@ -6,7 +6,7 @@ export type Request = {
     phoneNumber: string | null,
     applicationType: RequestType,
     message: "Это мой комментарий к заявке на вопрос (связаться с нами/расчет)",
-    serviceType: null,
+    serviceType: string,
     isProcessed: false
 }
 

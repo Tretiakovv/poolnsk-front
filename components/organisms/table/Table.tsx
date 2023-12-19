@@ -12,7 +12,7 @@ type TableProps = {
 const Table = ({draggable = false, ...props}: TableProps) => {
     return (
         <>
-            <HelperHintRow draggable={draggable} items={props.tableHeader}/>
+            <HelperHintRow {...props} draggable={draggable} items={props.tableHeader}/>
             {
                 draggable
                     ? <DraggableTableContent draggable={true} {...props}/>

@@ -21,7 +21,7 @@ const CatalogItemWrapper = ({draggable = false, ...props}: CatalogItemWrapperPro
     return (
         <div className={"mx-[-30px]"}>
             <div className={cn(mainWrapperCV)}>
-                <div className={"flex flex-row items-center gap-[40px]"}>
+                <div className={"w-full flex flex-row items-center gap-[40px]"}>
                     {
                         draggable && <div
                             className={"hover:cursor-grab active:cursor-grabbing"}

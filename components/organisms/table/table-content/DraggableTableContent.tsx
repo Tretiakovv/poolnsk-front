@@ -1,7 +1,7 @@
 import React from 'react';
 import {DraggableTableItem, TableContentProps} from "@/types/TableTypes";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
-import TableRow from "@/components/organisms/table/TableRow";
+import TableRow from "@/components/organisms/table/talbe-item/TableRow";
 import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
 
 const DraggableTableContent = (props: TableContentProps) => {

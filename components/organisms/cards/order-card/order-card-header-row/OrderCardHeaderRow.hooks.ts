@@ -16,7 +16,7 @@ export const useOrderCardHeaderRow = (orderId : number) => {
 
     const changeOrderStatusMutation = useMutation({
         mutationKey : ["put", "orderStatus", orderId, orderStatus],
-        mutationFn : (orderStatus : OrderStatus) => changeOrderStatus(orderId, orderStatus as OrderStatus),
+        mutationFn : (orderStatus : OrderStatus) => changeOrderStatus(orderId, orderStatus.toLowerCase() as OrderStatus),
         onSuccess : () => queryClient.invalidateQueries({
             queryKey : ["get", "orders", orderStatus]
         }),

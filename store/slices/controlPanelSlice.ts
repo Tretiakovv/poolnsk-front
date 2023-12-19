@@ -8,11 +8,14 @@ import {RequestType} from "@/types/dto/Request";
 export type ControlPanelSlice = {
 
     requests : Request[],
-    getRequests : (reqType : RequestType, isProcessed : boolean) => Promise<APIResponse | void>,
+    getRequests : (reqType : RequestType, processed : boolean | null) => Promise<APIResponse | void>,
 
     orders : Order[],
     getOrders : (status : OrderStatus, pageNumber : number, pageSize : number) => Promise<APIResponse | void>,
-    changeOrderStatus : (orderId : number, status : OrderStatus) => Promise<APIResponse | void>
+
+    changeOrderStatus : (orderId : number, status : OrderStatus) => Promise<APIResponse | void>,
+    markRequestProcessed : (requestId : number) => Promise<APIResponse | void>,
+    markRequestNotProcessed : (requestId : number) => Promise<APIResponse | void>
 
 }
 
@@ -21,12 +24,12 @@ export const controlPanelSlice : StateCreator<ControlPanelSlice, [] ,[], Control
     requests : [],
     orders : [],
 
-    getRequests : async (reqType : RequestType, isProcessed : boolean) => {
+    getRequests : async (reqType : RequestType, processed : boolean) => {
 
         const queryParams = {
-                type : reqType,
-            processed : isProcessed,
-            start : 0, end : 0
+            type : reqType,
+            processed : processed,
+            pageNumber : 0, pageSize : 10
         }
 
         return api.get("/application", {params : queryParams})
@@ -55,6 +58,18 @@ export const controlPanelSlice : StateCreator<ControlPanelSlice, [] ,[], Control
         return api.put("/order/change-status", {
             orderId : orderId, status : status
         })
+            .then((response) => response.data as APIResponse)
+            .catch((exception) => exception as APIResponse)
+    },
+
+    markRequestProcessed : async (requestId : number) => {
+        return api.put(`/application/mark-application-processed/${requestId}`)
+            .then((response) => response.data as APIResponse)
+            .catch((exception) => exception as APIResponse)
+    },
+
+    markRequestNotProcessed : async (requestId : number) => {
+        return api.put(`/application/mark-application-not-processed/${requestId}`)
             .then((response) => response.data as APIResponse)
             .catch((exception) => exception as APIResponse)
     }
