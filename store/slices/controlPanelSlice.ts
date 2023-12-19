@@ -11,7 +11,8 @@ export type ControlPanelSlice = {
     getRequests : (reqType : RequestType, isProcessed : boolean) => Promise<APIResponse | void>,
 
     orders : Order[],
-    getOrders : (orderType : OrderStatus, pageNumber : number, pageSize : number) => Promise<APIResponse | void>
+    getOrders : (status : OrderStatus, pageNumber : number, pageSize : number) => Promise<APIResponse | void>,
+    changeOrderStatus : (orderId : number, status : OrderStatus) => Promise<APIResponse | void>
 
 }
 
@@ -47,6 +48,14 @@ export const controlPanelSlice : StateCreator<ControlPanelSlice, [] ,[], Control
             .then((response) => {
                 set({orders : response.data.payload})
             })
+            .catch((exception) => exception as APIResponse)
+    },
+
+    changeOrderStatus : async (orderId : number, status : OrderStatus) => {
+        return api.put("/order/change-status", {
+            orderId : orderId, status : status
+        })
+            .then((response) => response.data as APIResponse)
             .catch((exception) => exception as APIResponse)
     }
 

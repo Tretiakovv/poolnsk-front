@@ -12,7 +12,7 @@ const OrderCard = ({order}: {
 }) => {
 
     const mainWrapperCV: ClassValue[] = [
-        "w-full flex flex-col rounded-xl p-5 overflow-clip",
+        "w-full flex bg-main-white flex-col rounded-xl p-5 overflow-clip",
         "rounded-xl border-2 border-second-border-gray"
     ]
 
