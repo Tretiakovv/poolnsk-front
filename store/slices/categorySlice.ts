@@ -2,6 +2,7 @@ import {StateCreator} from "zustand";
 import {Category} from "@/types/dto/Category";
 import {api} from "@/api/api";
 import {APIResponse} from "@/types/APIResponse";
+import {Characteristic} from "@/types/Characteristic";
 
 export type CategorySlice = {
 
@@ -9,11 +10,12 @@ export type CategorySlice = {
     categories: Category[],
 
     getCategories: (sectionId: number) => Promise<APIResponse | void>,
-    getCategory: (categoryId: number) => Promise<APIResponse | void>
+    getCategory: (categoryId: number) => Promise<APIResponse | void>,
+    addCategory : (sectionId : number, name : string, propertyList : Characteristic[]) => Promise<APIResponse | void>,
 
 }
 
-export const categorySlice: StateCreator<CategorySlice, [], [], CategorySlice> = (set, get) => ({
+export const categorySlice: StateCreator<CategorySlice, [], [], CategorySlice> = (set) => ({
 
     category : undefined,
     categories: [],
@@ -32,6 +34,14 @@ export const categorySlice: StateCreator<CategorySlice, [], [], CategorySlice> =
                 set({category : response.data.payload})
             })
             .catch((error) => error as APIResponse)
+    },
+
+    addCategory : async (sectionId : number, name : string, propertyList : Characteristic[]) => {
+        return api.post("/category/create", {
+            sectionId : sectionId,
+            name : name,
+            propertyList : propertyList
+        })
     }
 
 })

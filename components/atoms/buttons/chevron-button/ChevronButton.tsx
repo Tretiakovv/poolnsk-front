@@ -10,11 +10,11 @@ const ChevronButton = ({isExpanded, setExpanded} : {
             {
                 isExpanded ? <FiChevronUp
                     size={"22px"}
-                    className={"stroke-main-black hover:cursor-pointer"}
+                    className={"stroke-second-gray hover:cursor-pointer"}
                     onClick={() => setExpanded(!isExpanded)}
                 /> : <FiChevronDown
                     size={"22px"}
-                    className={"stroke-main-black hover:cursor-pointer"}
+                    className={"stroke-second-gray hover:cursor-pointer"}
                     onClick={() => setExpanded(!isExpanded)}
                 />
             }

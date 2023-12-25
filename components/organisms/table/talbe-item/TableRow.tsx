@@ -4,7 +4,6 @@ import CatalogItemWrapper from "@/components/wrappers/catalog-item-wrapper/Catel
 import Text from "@/components/atoms/text/Text";
 import {cn} from "@/utils/cn";
 import {TableItemProps} from "@/types/TableTypes";
-import {TextLinkItem} from "@/types/TextLinkItem";
 import {useTableRow} from "@/components/organisms/table/talbe-item/TableRow.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 
@@ -47,7 +46,10 @@ const TableRow = (props: TableItemProps) => {
                                         />
                                     </div>
                                 )
-                            } else return <Text text={item as string} className={cn(textCV)}/>
+                            } else return <Text
+                                text={item as string}
+                                className={cn(textCV)}
+                            />
                         })
                     }
                 </div>

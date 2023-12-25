@@ -12,7 +12,7 @@ const DraggableTableContent = (props: TableContentProps) => {
                     <SortableWrapper id={(item as DraggableTableItem).orderId ?? index}>
                         <TableRow
                             {...props}
-                            key={(item as DraggableTableItem).orderId}
+                            key={(item as DraggableTableItem).orderId ?? index}
                             onItemClick={() => props.onItemClick(item.id)}
                             tableItem={item}
                         />

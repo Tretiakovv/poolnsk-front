@@ -1,14 +1,10 @@
 import {DragEndEvent} from "@dnd-kit/core";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {arrayMove} from "@dnd-kit/sortable";
-import {SortableItem} from "@/types/Sortable";
 
-export const useSortableListWrapper = (initialState: SortableItem<any>[]) => {
+export const useSortableListWrapper = (initialState: any[]) => {
 
-    const [
-        items,
-        setItems
-    ] = useState<SortableItem<any>[]>(initialState)
+    const [items, setItems] = useState<any[]>(initialState)
 
     const onDragEnd = (event: DragEndEvent) => {
         const {active, over} = event
@@ -20,6 +16,11 @@ export const useSortableListWrapper = (initialState: SortableItem<any>[]) => {
             });
         }
     }
+
+    useEffect(() => {
+        setItems(initialState)
+        console.log("NEW_ITEMS", items)
+    }, [])
 
     return {state: items, onDragEnd}
 

@@ -74,7 +74,7 @@ const OrderCardHeaderRow = ({order}: {
                             message={"Вы уверены, что хотите завершить заказ? Это действие нельзя отменить"}
                             buttonText={"Завершить заказ"}
                             onClose={context.onPopupClose}
-                            action={context.onPopupRejectOrder}
+                            action={context.onPopupCloseOrder}
                             classNames={{button : "bg-main-black"}}
                         /> : null
             }

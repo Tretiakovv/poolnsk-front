@@ -4,7 +4,7 @@ import {useSortableListWrapper} from "@/components/wrappers/sortable-list-wrappe
 import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
 
 type SortableListWrapperProps = {
-    items: any & {orderId : number},
+    items: (any & { orderId: number })[],
     children: React.ReactNode
 }
 

@@ -1,10 +1,12 @@
 import {ClassValue} from "clsx";
 import {cn} from "@/utils/cn";
+import React from "react";
 
 type ButtonProps = {
-    buttonText: string,
-    onClick: () => void
+    onClick: () => void,
+    buttonText ?: string,
     className?: string,
+    icon ?: React.ReactNode,
     type?: "button" | "submit",
 }
 
@@ -18,7 +20,12 @@ const Button = ({type = "button", ...props}: ButtonProps) => {
     ]
 
     return (
-        <button className={cn(buttonCV)} type={type} onClick={props.onClick}>
+        <button
+            className={cn(buttonCV)}
+            type={type}
+            onClick={props.onClick}
+        >
+            {props.icon}
             {props.buttonText}
         </button>
     );
