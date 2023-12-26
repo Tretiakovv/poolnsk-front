@@ -1,6 +1,7 @@
 import {SortableProps} from "@/types/components/SortableProps";
 import {TextLinkItem} from "@/types/TextLinkItem";
 import React from "react";
+import {DragEndEvent} from "@dnd-kit/core";
 
 export type TableItem = {
     id : number
@@ -19,6 +20,7 @@ export type TableContentProps = {
     draggable ?: boolean,
     onItemClick?: (itemId: number) => void,
     tableContent: (TableItem | DraggableTableItem)[],
+    handleDragEnd ?: (event: DragEndEvent) => void,
     classNames ?: TableClassNames,
     items ?: any[],
 }

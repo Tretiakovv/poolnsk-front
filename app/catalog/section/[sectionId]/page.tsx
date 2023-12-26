@@ -15,10 +15,10 @@ const CatalogCategoriesPage = ({params}: {
 
     const {
         sortableCategories, getCategoriesQuery,
-        handleAddCategory, handleDeleteClick, handleEditClick, handleItemClick
+        handleAddCategory, handleDeleteClick, handleEditClick, handleItemClick, ...context
     } = useCategoriesPage(params.sectionId)
 
-    if (getCategoriesQuery.isLoading) {
+    if (getCategoriesQuery.isLoading || context.getSectionsQuery.isLoading) {
         return (
             <div>
                 Categories is loading..
@@ -26,15 +26,17 @@ const CatalogCategoriesPage = ({params}: {
         )
     }
 
-    if (getCategoriesQuery.isSuccess) {
+    if (getCategoriesQuery.isSuccess && context.getSectionsQuery.isSuccess) {
         return (
             <>
                 <HeaderRow
                     backIcon
-                    header={`Категории для раздела «Бассейны»`}
+                    header={`Категории для раздела "${context.sectionName}"`}
                 />
                 <Table
-                    onItemClick={(itemId : number) => console.log("ID", itemId)}
+                    draggable
+                    onItemClick={handleItemClick}
+                    handleDragEnd={context.handleDragEnd}
                     tableHeader={categoryItems}
                     tableContent={sortableCategories}
                 />

@@ -11,7 +11,7 @@ const SalesPage = () => {
 
     const {
         sortablePromotions, getPromotionsQuery,
-        isPublished, handlePublish
+        isPublished, handlePublish, handleDragEnd
     } = useSalesPage()
 
     if (getPromotionsQuery.isLoading) {
@@ -44,6 +44,7 @@ const SalesPage = () => {
                 />
                 <Table
                     draggable
+                    handleDragEnd={handleDragEnd}
                     tableHeader={salesPageTableHeaders}
                     tableContent={sortablePromotions}
                 />

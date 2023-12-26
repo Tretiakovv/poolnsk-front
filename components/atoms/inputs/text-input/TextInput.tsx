@@ -9,6 +9,7 @@ type TextInputProps = {
     labelText?: string,
     hintText?: string,
     className?: string
+    disabled ?: boolean,
 }
 
 const TextInput = (props: TextInputProps) => {
@@ -22,6 +23,7 @@ const TextInput = (props: TextInputProps) => {
             }
             <div className={"w-full flex flex-col gap-2"}>
                 <input
+                    disabled={props.disabled}
                     className={"w-full focus:outline-none border-2 border-second-light-blue rounded-xl px-5 py-4"}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => props.onChange(event.target.value)}
                     value={props.value}

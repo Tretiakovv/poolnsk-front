@@ -6,13 +6,15 @@ import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/Sor
 
 const DraggableTableContent = (props: TableContentProps) => {
     return (
-        <SortableListWrapper items={props.tableContent}>
+        <SortableListWrapper
+            onDragEnd={props.handleDragEnd}
+            items={props.tableContent as DraggableTableItem[]}
+        >
             {
-                props.tableContent.map((item, index) => (
-                    <SortableWrapper id={(item as DraggableTableItem).orderId ?? index}>
+                (props.tableContent as DraggableTableItem[]).map((item) => (
+                    <SortableWrapper key={item.orderId} id={item.orderId}>
                         <TableRow
                             {...props}
-                            key={(item as DraggableTableItem).orderId ?? index}
                             onItemClick={() => props.onItemClick(item.id)}
                             tableItem={item}
                         />

@@ -10,8 +10,8 @@ export const useSortableListWrapper = (initialState: any[]) => {
         const {active, over} = event
         if (active.id !== over?.id) {
             setItems((items) => {
-                const oldIndex = items.findIndex((item) => item.orderId === active.id);
-                const newIndex = items.findIndex((item) => item.orderId === over?.id);
+                const oldIndex = items.findIndex((item) => item.orderId == active.id);
+                const newIndex = items.findIndex((item) => item.orderId == over?.id);
                 return arrayMove(items, oldIndex, newIndex);
             });
         }
@@ -19,7 +19,6 @@ export const useSortableListWrapper = (initialState: any[]) => {
 
     useEffect(() => {
         setItems(initialState)
-        console.log("NEW_ITEMS", items)
     }, [])
 
     return {state: items, onDragEnd}

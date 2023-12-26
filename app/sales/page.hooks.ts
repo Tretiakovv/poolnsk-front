@@ -3,6 +3,8 @@ import {useShallow} from "zustand/react/shallow";
 import {useQuery} from "react-query";
 import {DraggableTableItem} from "@/types/TableTypes";
 import {useState} from "react";
+import {DragEndEvent} from "@dnd-kit/core";
+import {arrayMove} from "@dnd-kit/sortable";
 
 export const useSalesPage = () => {
 
@@ -45,11 +47,22 @@ export const useSalesPage = () => {
         }
     })
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        const {active, over} = event
+        if (active.id !== over?.id) {
+            setSortablePromotions((items) => {
+                const oldIndex = items.findIndex((item) => item.orderId == active.id);
+                const newIndex = items.findIndex((item) => item.orderId == over?.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
+    }
+
     const handlePublish = () => setIsPublished(!isPublished)
 
     return {
         sortablePromotions, getPromotionsQuery,
-        isPublished, handlePublish
+        isPublished, handlePublish, handleDragEnd
     }
 
 }

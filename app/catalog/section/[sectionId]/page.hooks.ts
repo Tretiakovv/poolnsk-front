@@ -6,6 +6,8 @@ import {useShallow} from "zustand/react/shallow";
 import {useQuery} from "react-query";
 import {DraggableTableItem} from "@/types/TableTypes";
 import {mergePropertyNames} from "@/utils/mergePropertyNames";
+import {DragEndEvent} from "@dnd-kit/core";
+import {arrayMove} from "@dnd-kit/sortable";
 
 export const useCategoriesPage = (sectionId : number) => {
 
@@ -16,6 +18,18 @@ export const useCategoriesPage = (sectionId : number) => {
         sortableCategories,
         setSortableCategories
     ] = useState<DraggableTableItem[]>([])
+
+    const [sections, getSections] = useStore(
+        useShallow(state =>
+            [state.sections, state.getSections])
+    )
+
+    const [sectionName, setSectionName] = useState<string>("")
+
+    const findAndSetSectionName = () => {
+        const section = sections.find((section) => section.id == sectionId)
+        setSectionName(section?.name ?? "")
+    }
 
     const [categories, getCategories] = useStore(
         useShallow(state =>
@@ -38,6 +52,23 @@ export const useCategoriesPage = (sectionId : number) => {
         onSuccess : () => setSortableCategories(mapCategoryToDraggableItem)
     })
 
+    const getSectionsQuery = useQuery({
+        queryKey : ["get", "sections"],
+        queryFn : () => getSections(),
+        onSuccess : () => findAndSetSectionName()
+    })
+
+    const handleDragEnd = (event: DragEndEvent) => {
+        const {active, over} = event
+        if (active.id !== over?.id) {
+            setSortableCategories((items) => {
+                const oldIndex = items.findIndex((item) => item.orderId == active.id);
+                const newIndex = items.findIndex((item) => item.orderId == over?.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
+    }
+
     const handleClosePage = () => router.back()
     const handleAddCategory = () => router.push(pathName.concat('/new'))
     const handleDeleteClick = (itemId : number) => console.log("DELETED")
@@ -47,7 +78,8 @@ export const useCategoriesPage = (sectionId : number) => {
     return {
         sortableCategories, getCategoriesQuery,
         handleClosePage, handleAddCategory, handleDeleteClick,
-        handleEditClick, handleItemClick
+        handleEditClick, handleItemClick, sectionName, getSectionsQuery,
+        handleDragEnd
     }
 
 }

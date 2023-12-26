@@ -1,24 +1,40 @@
 import React from 'react';
-import {closestCenter, DndContext} from "@dnd-kit/core";
+import {
+    closestCenter,
+    DndContext,
+    DragEndEvent,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
 import {useSortableListWrapper} from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper.hooks";
-import {SortableContext, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy} from "@dnd-kit/sortable";
+import {DraggableTableItem} from "@/types/TableTypes";
 
 type SortableListWrapperProps = {
     items: (any & { orderId: number })[],
-    children: React.ReactNode
+    children: React.ReactNode,
+    onDragEnd?: (event: DragEndEvent) => void
 }
 
-const SortableListWrapper = ({items, children}: SortableListWrapperProps) => {
+const SortableListWrapper = ({items, children, onDragEnd}: SortableListWrapperProps) => {
 
-    const {state, onDragEnd} = useSortableListWrapper(items)
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+        useSensor(KeyboardSensor, {
+            coordinateGetter: sortableKeyboardCoordinates,
+        })
+    );
 
     return (
         <DndContext
             collisionDetection={closestCenter}
             onDragEnd={onDragEnd}
+            sensors={sensors}
         >
             <SortableContext
-                items={state.map((item) => item.orderId)}
+                items={items.map((item) => item.orderId)}
                 strategy={verticalListSortingStrategy}
             >
                 {children}

@@ -52,7 +52,7 @@ const HeaderRow = (props: HeaderRowProps) => {
                 }
                 <Text
                     text={props.header}
-                    className={"text-[28px] whitespace-nowrap text-main-black font-semibold"}
+                    className={"text-[24px] whitespace-nowrap text-main-black font-semibold"}
                 />
                 {props.leftContent}
             </div>

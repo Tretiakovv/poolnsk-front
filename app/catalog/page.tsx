@@ -12,7 +12,7 @@ const CatalogSectionsPage = () => {
     const {
         published, getSectionsQuery,
         sortableSections, handlePublish, handleItemClick,
-        handleDeleteClick, handleEditClick
+        handleDeleteClick, handleEditClick, handleDragEnd
     } = useCatalogSectionsPage()
 
     if (getSectionsQuery.isLoading) {
@@ -45,6 +45,7 @@ const CatalogSectionsPage = () => {
                 />
                 <Table
                     draggable
+                    handleDragEnd={handleDragEnd}
                     tableHeader={sectionItems}
                     onItemClick={handleItemClick}
                     tableContent={sortableSections}

@@ -5,6 +5,8 @@ import {useStore} from "@/store/store";
 import {useShallow} from "zustand/react/shallow";
 import {useQuery} from "react-query";
 import {DraggableTableItem} from "@/types/TableTypes";
+import {DragEndEvent} from "@dnd-kit/core";
+import {arrayMove} from "@dnd-kit/sortable";
 
 export const useCatalogSectionsPage = () => {
 
@@ -41,6 +43,17 @@ export const useCatalogSectionsPage = () => {
         refetchInterval: 1000 * 60 * 2
     })
 
+    const handleDragEnd = (event: DragEndEvent) => {
+        const {active, over} = event
+        if (active.id !== over?.id) {
+            setSortableSections((items) => {
+                const oldIndex = items.findIndex((item) => item.orderId == active.id);
+                const newIndex = items.findIndex((item) => item.orderId == over?.id);
+                return arrayMove(items, oldIndex, newIndex);
+            });
+        }
+    }
+
     const handlePublish = () => setPublished(!published)
     const handleItemClick = (itemId : number) => router.push(`/catalog/section/${itemId}`)
     const handleDeleteClick = (itemId : number) => console.log("DELETED")
@@ -49,7 +62,7 @@ export const useCatalogSectionsPage = () => {
     return {
         getSectionsQuery, sortableSections, published,
         handlePublish, handleItemClick,
-        handleDeleteClick, handleEditClick
+        handleDeleteClick, handleEditClick, handleDragEnd
     }
 
 }
