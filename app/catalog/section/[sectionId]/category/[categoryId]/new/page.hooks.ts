@@ -141,11 +141,13 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
 
         const propertyMap = new Object({})
         charMap.forEach((item) => {
+            // @ts-ignore
             propertyMap[item.id.toString()] = item.value
         })
 
         const extraPropMap = new Object({})
         productChars.forEach((item) => {
+            // @ts-ignore
             extraPropMap[item.name] = item.text
         })
 

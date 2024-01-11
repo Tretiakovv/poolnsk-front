@@ -20,7 +20,7 @@ const CatalogProductRow = ({product, ...props} : CatalogProductRowProps) => {
     const textCV: ClassValue = "text-base text-main-black w-[350px]"
 
     return (
-        <CatalogItemWrapper {...props}>
+        <CatalogItemWrapper draggable {...props}>
             <div className={"w-full flex flex-row items-center gap-[20px]"}>
                 {
                     categoryItems.map((item) => (

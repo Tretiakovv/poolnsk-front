@@ -4,22 +4,29 @@ import {StateCreator} from "zustand";
 import {api} from "@/api/api";
 
 export type WorkersSlice = {
-    workers : Worker[],
-    getWorkers : () => Promise<APIResponse | void>
+    workers: Worker[],
+    getWorkers: () => Promise<APIResponse | void>,
+    addWorker: (worker: Worker) => Promise<APIResponse | void>
 }
 
-export const workersSlice : StateCreator<WorkersSlice, [] ,[], WorkersSlice> = (set) => ({
+export const workersSlice: StateCreator<WorkersSlice, [], [], WorkersSlice> = (set) => ({
 
-    workers : [],
+    workers: [],
 
-    getWorkers : async () => {
+    getWorkers: async () => {
         return api.get('/get-workers')
             .then((response) => {
                 const data = response.data.payload
-                set({workers : data})
+                set({workers: data})
             })
             .catch((error) => error as APIResponse)
             .finally(console.log)
     },
+
+    addWorker: async (worker : Worker) => {
+        return api.post("/save-worker", worker)
+            .then((response) => response.data as APIResponse)
+            .catch((error) => error as APIResponse)
+    }
 
 })

@@ -37,7 +37,8 @@ export const useCategoriesPage = (sectionId : number) => {
     )
 
     const mapCategoryToDraggableItem = () => {
-        return categories.map((category) => {
+        return categories.sort((fst, snd) => fst.orderId!! < snd.orderId!! ? -1 : 1)
+            .map((category) => {
             return new Object({
                 orderId: category.orderId,
                 items: [category.name, mergePropertyNames(category.properties)],
@@ -69,6 +70,15 @@ export const useCategoriesPage = (sectionId : number) => {
         }
     }
 
+    const mapItemsToOrderMap = () => {
+        const orderMap: Record<string, string> = {}
+        sortableCategories.forEach((item, index) => orderMap[item.id] = index + 1)
+        return orderMap
+    }
+
+    const putOrderMap = useStore(state => state.changeCategoryOrder)
+    const handleChangeOrder = () => putOrderMap(mapItemsToOrderMap())
+
     const handleClosePage = () => router.back()
     const handleAddCategory = () => router.push(pathName.concat('/new'))
     const handleDeleteClick = (itemId : number) => console.log("DELETED")
@@ -79,7 +89,7 @@ export const useCategoriesPage = (sectionId : number) => {
         sortableCategories, getCategoriesQuery,
         handleClosePage, handleAddCategory, handleDeleteClick,
         handleEditClick, handleItemClick, sectionName, getSectionsQuery,
-        handleDragEnd
+        handleDragEnd, handleChangeOrder
     }
 
 }

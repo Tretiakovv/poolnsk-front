@@ -3,8 +3,12 @@ import {useStore} from "@/store/store";
 import {useQuery} from "react-query";
 import {TableItem} from "@/types/TableTypes";
 import {useState} from "react";
+import {usePathname, useRouter} from "next/navigation";
 
 export const useWorkersPage = () => {
+
+    const router = useRouter()
+    const pathName = usePathname()
 
     const [workers, getWorkers] = useStore(
         useShallow(state => [state.workers, state.getWorkers])
@@ -30,8 +34,11 @@ export const useWorkersPage = () => {
         })
     }
 
+    const handleAddWorker = () => router.push(pathName.concat("/new"))
+
     return {
-        tableWorkers, getWorkersQuery
+        tableWorkers, getWorkersQuery,
+        handleAddWorker
     }
 
 }

@@ -24,7 +24,7 @@ export const controlPanelSlice : StateCreator<ControlPanelSlice, [] ,[], Control
     requests : [],
     orders : [],
 
-    getRequests : async (reqType : RequestType, processed : boolean) => {
+    getRequests : async (reqType : RequestType, processed : boolean | null) => {
 
         const queryParams = {
             type : reqType,

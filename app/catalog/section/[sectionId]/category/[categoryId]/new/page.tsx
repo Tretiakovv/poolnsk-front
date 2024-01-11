@@ -71,7 +71,7 @@ const HelperBottomRow = ({handleAddProduct}: {
 
 const ProductCharacteristicsBlock = ({chars, charMap, handleChangeCharMap}: {
     chars: ResponseChar[],
-    charMap: {id : number, value : string}[],
+    charMap: { id: number, value: string }[],
     handleChangeCharMap: (id: number, newVal: string) => void
 }) => {
     return (
@@ -161,8 +161,8 @@ const NewProductPage = ({params}: {
                             <SelectInput
                                 options={context.options}
                                 placeholder={"Валюта"}
-                                labelText={"Валюта цены"}
-                            />
+                                activeOption={context.options[0]}
+                                onSelectOption={() => console.log("Select")}/>
                             <Text
                                 className={"text-[14px] w-full text-second-gray"}
                                 text={"Цена товара будет в этой валюте"}

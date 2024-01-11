@@ -6,14 +6,22 @@ import Text from "@/components/atoms/text/Text";
 import {sectionItems} from "@/data/catalogSectionHelperData";
 import {useCatalogSectionsPage} from "@/app/catalog/page.hooks";
 import Table from "@/components/organisms/table/Table";
+import {ClassValue} from "clsx";
+import {cn} from "@/utils/cn";
+import {FiPlus} from "react-icons/fi";
 
 const CatalogSectionsPage = () => {
 
     const {
         published, getSectionsQuery,
         sortableSections, handlePublish, handleItemClick,
-        handleDeleteClick, handleEditClick, handleDragEnd
+        handleDragEnd, ...context
     } = useCatalogSectionsPage()
+
+    const buttonCV : ClassValue[] = [
+        "flex flex-row items-center gap-2 bg-second-light-blue",
+        "text-main-black hover:bg-main-blue hover:text-main-white"
+    ]
 
     if (getSectionsQuery.isLoading) {
         return (
@@ -29,16 +37,16 @@ const CatalogSectionsPage = () => {
                 <HeaderRow
                     header={"Каталог"}
                     rightContent={
-                        <div className={"flex flex-row items-center gap-[20px]"}>
-                            {
-                                published && <Text
-                                    className={"text-right text-indicator-new text-[14px]"}
-                                    text={"Все изменения опубликованы"}
-                                />
-                            }
+                        <div className={"flex flex-row items-center gap-5"}>
                             <Button
-                                buttonText={"Опубликовать"}
-                                onClick={handlePublish}
+                                buttonText={"Изменить порядок"}
+                                onClick={context.handleChangeOrder}
+                            />
+                            <Button
+                                icon={<FiPlus size={"18px"}/>}
+                                className={cn(buttonCV)}
+                                buttonText={"Добавить раздел"}
+                                onClick={context.handleAddSection}
                             />
                         </div>
                     }

@@ -50,6 +50,7 @@ const HelperBottomRow = ({handleAddCharacteristic}: {
     const handleChangeCharacteristic = (_key: keyof Characteristic, value: any) => {
         setCharacteristic(state => {
             const newState = {...state}
+            // @ts-ignore
             newState[_key] = value
             return newState
         })

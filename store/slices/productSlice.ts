@@ -13,7 +13,8 @@ export type ProductSlice = {
     getCharacteristics : (categoryId : number) => Promise<APIResponse | void>,
     addPhoto : (photo : File) => Promise<APIResponse | void>,
     addProduct : (data : any) => Promise<APIResponse | void>,
-    getProducts : (categoryId : number) => Promise<APIResponse | void>
+    getProducts : (categoryId : number) => Promise<APIResponse | void>,
+    changeProductOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
 
 }
 
@@ -62,6 +63,14 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
                 return response.data as APIResponse
             })
             .catch((exception) => exception as APIResponse)
+    },
+
+    changeProductOrder : async (orderMap : Record<string, string>) => {
+        return api.put("/product/change-order", {
+            entityIdToNewOrderIdMap : orderMap
+        })
+            .then((response) => response.data as APIResponse)
+            .catch((error) => error as APIResponse)
     }
 
 })

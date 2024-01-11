@@ -10,6 +10,7 @@ type TextInputProps = {
     hintText?: string,
     className?: string
     disabled ?: boolean,
+    errorMessage ?: string
 }
 
 const TextInput = (props: TextInputProps) => {
@@ -33,6 +34,12 @@ const TextInput = (props: TextInputProps) => {
                     props.hintText && <Text
                         className={"text-[14px] text-second-gray"}
                         text={props.hintText}
+                    />
+                }
+                {
+                    props.errorMessage && <Text
+                        className={"text-[14px] text-indicator-text-red"}
+                        text={props.errorMessage}
                     />
                 }
             </div>

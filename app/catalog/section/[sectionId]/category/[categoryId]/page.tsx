@@ -9,6 +9,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {useCatalogProductsPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import CatalogProductRow from "@/components/organisms/rows/catalog-product-row/CatalogProductRow";
 import {DraggableTableItem} from "@/types/TableTypes";
+import React from "react";
 
 const CatalogProductsPage = ({params}: {
     params: {
@@ -35,12 +36,18 @@ const CatalogProductsPage = ({params}: {
             <HeaderRow
                 backIcon
                 header={`Товары категории "${context.categoryName}"`}
+                rightContent={
+                    <Button
+                        buttonText={"Изменить порядок"}
+                        onClick={context.handleChangeOrder}
+                    />
+                }
             />
             <HelperHintRow items={productItems}/>
             <SortableListWrapper onDragEnd={context.handleDragEnd} items={sortableItems}>
                 {
                     sortableItems.map((item, index) => (
-                        <SortableWrapper id={item.orderId ?? index}>
+                        <SortableWrapper key={item.orderId} id={item.orderId ?? index}>
                             <CatalogProductRow
                                 key={item.orderId}
                                 product={item}

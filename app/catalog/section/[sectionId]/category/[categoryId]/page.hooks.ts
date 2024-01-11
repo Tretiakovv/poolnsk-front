@@ -60,6 +60,14 @@ export const useCatalogProductsPage = (sectionId : number, categoryId : number) 
         }
     }
 
+    const mapItemsToOrderMap = () => {
+        const orderMap: Record<string, string> = {}
+        sortableItems.forEach((item, index) => orderMap[item.id] = index + 1)
+        return orderMap
+    }
+
+    const putOrderMap = useStore(state => state.changeProductOrder)
+    const handleChangeOrder = () => putOrderMap(mapItemsToOrderMap())
 
     const handleEditClick = (itemId : number) => console.log("EDIT CLICK")
     const handleDeleteClick = (itemId : number) => console.log("EDIT CLICK")
@@ -69,7 +77,7 @@ export const useCatalogProductsPage = (sectionId : number, categoryId : number) 
         sortableItems, handleEditClick,
         handleDeleteClick, handleAddProduct,
         getProductsQuery, getCategoriesQuery, categoryName,
-        handleDragEnd
+        handleDragEnd, handleChangeOrder
     }
 
 }

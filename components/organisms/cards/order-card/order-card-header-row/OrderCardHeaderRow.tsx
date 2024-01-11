@@ -19,7 +19,7 @@ const OrderCardHeaderRow = ({order}: {
     order: Order
 }) => {
 
-    const context = useOrderCardHeaderRow(order.id, order.status)
+    const context = useOrderCardHeaderRow(order.id)
 
     const acceptButtonCV: ClassValue[] = [
         "bg-indicator-green-light hover:bg-indicator-text-green",
@@ -36,6 +36,7 @@ const OrderCardHeaderRow = ({order}: {
         "hover:text-main-white transition hover:duration-200"
     ]
 
+    // @ts-ignore
     const orderTypeButtonMap: Record<OrderStatus, OrderStatusButton> = {
         "IN_PROCESSING": {
             name: "Подтвердить", action: context.handleAcceptOrder,
@@ -85,7 +86,7 @@ const OrderCardHeaderRow = ({order}: {
                     <div className={"w-1 h-1 rounded-full bg-second-gray"}/>
                     <Text text={fullName} className={"text-base text-main-black"}/>
                     <div className={"w-1 h-1 rounded-full bg-second-gray"}/>
-                    <Text text={status} className={"text-base text-main-black"}/>
+                    <Text text={status ?? ""} className={"text-base text-main-black"}/>
                 </div>
 
                 <div className={"flex flex-row items-center gap-2"}>

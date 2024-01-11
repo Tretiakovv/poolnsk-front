@@ -6,6 +6,8 @@ import {useCategoriesPage} from "@/app/catalog/section/[sectionId]/page.hooks";
 import {categoryItems} from "@/data/catalogSectionHelperData";
 import Button from "@/components/atoms/buttons/button/Button";
 import Table from "@/components/organisms/table/Table";
+import {FiPlus} from "react-icons/fi";
+import {cn} from "@/utils/cn";
 
 const CatalogCategoriesPage = ({params}: {
     params: {
@@ -32,6 +34,12 @@ const CatalogCategoriesPage = ({params}: {
                 <HeaderRow
                     backIcon
                     header={`Категории для раздела "${context.sectionName}"`}
+                    rightContent={
+                        <Button
+                            buttonText={"Изменить порядок"}
+                            onClick={context.handleChangeOrder}
+                        />
+                    }
                 />
                 <Table
                     draggable
