@@ -14,6 +14,8 @@ export type ProductSlice = {
     addPhoto : (photo : File) => Promise<APIResponse | void>,
     addProduct : (data : any) => Promise<APIResponse | void>,
     getProducts : (categoryId : number) => Promise<APIResponse | void>,
+    deleteProduct : (productId : number) => Promise<APIResponse | void>,
+
     changeProductOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
 
 }
@@ -52,8 +54,6 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
 
     addProduct : async (data : any) => {
         return api.post("/product/create", data)
-            .then(response => response.data as APIResponse)
-            .catch((exception) => exception as APIResponse)
     },
 
     getProducts : async (categoryId : number) => {
@@ -71,6 +71,12 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
         })
             .then((response) => response.data as APIResponse)
             .catch((error) => error as APIResponse)
+    },
+
+    deleteProduct : async (productId : number) => {
+        return api.delete(`/product/${productId}`)
+            .then(response => response.data as APIResponse)
+            .catch(error => error as APIResponse)
     }
 
 })

@@ -6,6 +6,7 @@ import {cn} from "@/utils/cn";
 import {TableItemProps} from "@/types/TableTypes";
 import {useTableRow} from "@/components/organisms/table/talbe-item/TableRow.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
+import DeleteEditRow from "@/components/moleculas/rows/delete-edit-row/DeleteEditRow";
 
 const TableRow = (props: TableItemProps) => {
 
@@ -26,13 +27,20 @@ const TableRow = (props: TableItemProps) => {
 
     const context = useTableRow(props.tableItem.id)
 
+    const handleItemClick = () => {
+        if (props.onItemClick) props.onItemClick(props.tableItem.id)
+    }
+
+    const handleDeleteClick = () => {
+        if (props.editableProps?.onDelete) props.editableProps.onDelete(props.tableItem)
+    }
+
+
     return (
         <CatalogItemWrapper {...props}>
             <div
-                onClick={() => {
-                    if (props.onItemClick) props.onItemClick(props.tableItem.id)}
-                }
-                className={"w-full flex flex-row items-center justify-between"}
+                onClick={handleItemClick}
+                className={"relative w-full flex flex-row items-center justify-between"}
             >
                 <div className={"flex flex-row items-center gap-[20px]"}>
                     {
@@ -73,6 +81,11 @@ const TableRow = (props: TableItemProps) => {
                     )
                 }
             </div>
+            {
+                props.editableProps && <DeleteEditRow
+                    onDelete={handleDeleteClick}
+                />
+            }
         </CatalogItemWrapper>
     );
 

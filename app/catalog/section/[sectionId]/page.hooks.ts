@@ -3,16 +3,27 @@ import {usePathname, useRouter} from "next/navigation";
 import {AppRouterInstance} from "next/dist/shared/lib/app-router-context.shared-runtime";
 import {useStore} from "@/store/store";
 import {useShallow} from "zustand/react/shallow";
-import {useQuery} from "react-query";
-import {DraggableTableItem} from "@/types/TableTypes";
+import {useMutation, useQuery, useQueryClient} from "react-query";
+import {DraggableTableItem, TableItem} from "@/types/TableTypes";
 import {mergePropertyNames} from "@/utils/mergePropertyNames";
 import {DragEndEvent} from "@dnd-kit/core";
 import {arrayMove} from "@dnd-kit/sortable";
 
 export const useCategoriesPage = (sectionId : number) => {
 
+    const queryClient = useQueryClient()
     const router : AppRouterInstance = useRouter()
     const pathName : string = usePathname()
+
+    const [
+        deleteError,
+        setDeleteError
+    ] = useState<boolean>(false)
+
+    const [
+        itemToDelete,
+        setItemToDelete
+    ] = useState<TableItem>()
 
     const [
         sortableCategories,
@@ -23,6 +34,17 @@ export const useCategoriesPage = (sectionId : number) => {
         useShallow(state =>
             [state.sections, state.getSections])
     )
+
+    const deleteCategory = useStore(state => state.deleteCategory)
+    const deleteCategoryMutation = useMutation({
+        mutationKey : ["delete", "category"],
+        mutationFn : (categoryId : number) => deleteCategory(categoryId),
+        onSuccess : () => {
+            queryClient.invalidateQueries(["get", "categoryList"])
+            setItemToDelete(undefined)
+        },
+        onError : () => setDeleteError(true)
+    })
 
     const [sectionName, setSectionName] = useState<string>("")
 
@@ -72,7 +94,7 @@ export const useCategoriesPage = (sectionId : number) => {
 
     const mapItemsToOrderMap = () => {
         const orderMap: Record<string, string> = {}
-        sortableCategories.forEach((item, index) => orderMap[item.id] = index + 1)
+        sortableCategories.forEach((item, index) => orderMap[item.id] = String(index + 1))
         return orderMap
     }
 
@@ -81,7 +103,7 @@ export const useCategoriesPage = (sectionId : number) => {
 
     const handleClosePage = () => router.back()
     const handleAddCategory = () => router.push(pathName.concat('/new'))
-    const handleDeleteClick = (itemId : number) => console.log("DELETED")
+    const handleDeleteClick = () => itemToDelete && deleteCategoryMutation.mutate(itemToDelete.id)
     const handleEditClick = (itemId : number) => console.log("EDITED")
     const handleItemClick = (itemId : number) => router.push(pathName.concat(`/category/${itemId}`))
 
@@ -89,7 +111,8 @@ export const useCategoriesPage = (sectionId : number) => {
         sortableCategories, getCategoriesQuery,
         handleClosePage, handleAddCategory, handleDeleteClick,
         handleEditClick, handleItemClick, sectionName, getSectionsQuery,
-        handleDragEnd, handleChangeOrder
+        handleDragEnd, handleChangeOrder, itemToDelete, setItemToDelete,
+        deleteError, setDeleteError
     }
 
 }

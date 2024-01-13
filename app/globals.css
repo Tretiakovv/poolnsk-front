@@ -5,3 +5,7 @@
 .root {
   @apply h-screen w-screen bg-main-white;
 }
+
+.hoverable {
+  @apply cursor-pointer hover:duration-200 transition;
+}

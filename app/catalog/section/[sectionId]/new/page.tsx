@@ -19,6 +19,8 @@ import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/Sor
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
+import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
+import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
 
 const helperHintRow: TextItem[] = [
     {text: "Характеристика видна клиенту?"},
@@ -111,6 +113,16 @@ const NewCategoryPage = ({params} : {
 
     return (
         <>
+            <ErrorSnackbar
+                message={"Возникла ошибка при создании категории. Попробуйте снова."}
+                isOpen={context.isCreateError}
+                onClose={() => context.setCreateError(false)}
+            />
+            <SuccessBackSnackbar
+                message={"Категория была создана успешно! Вы можете вернуться назад."}
+                isOpen={context.isSnackbarOpen}
+                onClose={() => context.setSnackbarOpen(false)}
+            />
             <HeaderRow
                 header={"Новая категория"}
                 backIcon

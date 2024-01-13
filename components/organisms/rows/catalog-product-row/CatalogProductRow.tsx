@@ -5,9 +5,11 @@ import CatalogItemWrapper from "@/components/wrappers/catalog-item-wrapper/Catel
 import {cn} from "@/utils/cn";
 import Text from "@/components/atoms/text/Text";
 import {ClassValue} from "clsx";
+import DeleteEditRow from "@/components/moleculas/rows/delete-edit-row/DeleteEditRow";
 
 type CatalogProductRowProps = {
     product : ProductShort
+    onDelete : (productId : number) => void
 } & SortableProps
 
 const CatalogProductRow = ({product, ...props} : CatalogProductRowProps) => {
@@ -28,6 +30,7 @@ const CatalogProductRow = ({product, ...props} : CatalogProductRowProps) => {
                     ))
                 }
             </div>
+            <DeleteEditRow onDelete={() => props.onDelete(product.id)}/>
         </CatalogItemWrapper>
     );
 

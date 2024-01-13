@@ -19,6 +19,8 @@ import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrap
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
+import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
+import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
 
 const helperHintRow: TextItem[] = [
     {text: "Дополнительная характеристика товара"},
@@ -115,6 +117,16 @@ const NewProductPage = ({params}: {
 
     if (context.getCharsQuery.isSuccess) return (
         <>
+            <ErrorSnackbar
+                message={"Возникла ошибка при создании товара. Попробуйте снова."}
+                isOpen={context.isCreateError}
+                onClose={() => context.setCreateError(false)}
+            />
+            <SuccessBackSnackbar
+                message={"Товар был создан успешно! Вы можете вернуться назад."}
+                isOpen={context.isCreateSuccess}
+                onClose={() => context.setCreateSuccess(false)}
+            />
             <HeaderRow
                 header={"Новый товар"}
                 backIcon

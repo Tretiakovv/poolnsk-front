@@ -1,31 +1,36 @@
 import {SortableProps} from "@/types/components/SortableProps";
 import {TextLinkItem} from "@/types/TextLinkItem";
-import React from "react";
 import {DragEndEvent} from "@dnd-kit/core";
 
 export type TableItem = {
-    id : number
-    items : string[] | TextLinkItem[]
+    id: number
+    items: string[] | TextLinkItem[]
 }
 
 export type DraggableTableItem = {
-    orderId : number
+    orderId: number
 } & TableItem
 
 export type TableClassNames = {
-    text ?: string
+    text?: string
+}
+
+type EditableProps = {
+    onDelete?: (item : TableItem) => void,
+    onEdit?: (item : TableItem) => void,
 }
 
 export type TableContentProps = {
-    draggable ?: boolean,
-    onItemClick?: (itemId: number) => void,
     tableContent: (TableItem | DraggableTableItem)[],
-    handleDragEnd ?: (event: DragEndEvent) => void,
-    classNames ?: TableClassNames,
-    items ?: any[],
+    onItemClick?: (itemId: number) => void,
+    handleDragEnd?: (event: DragEndEvent) => void,
+    classNames?: TableClassNames,
+    draggable?: boolean,
+    editableProps ?: EditableProps,
+    items?: any[],
 }
 
 export type TableItemProps = {
-    tableItem : TableItem | DraggableTableItem,
-    item ?: any
+    tableItem: TableItem | DraggableTableItem,
+    item?: any
 } & Omit<TableContentProps, "tableContent"> & SortableProps

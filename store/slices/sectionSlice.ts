@@ -7,6 +7,7 @@ export type SectionSlice = {
     sections : Section[],
     getSections : () => Promise<APIResponse | void>,
     addSection : (name : string) => Promise<APIResponse | void>,
+    deleteSection : (sectionId : number) => Promise<APIResponse | void>,
     changeOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
 }
 
@@ -21,13 +22,10 @@ export const sectionSlice : StateCreator<SectionSlice, [] ,[], SectionSlice> = (
                 set({sections : data})
             })
             .catch((error) => error as APIResponse)
-            .finally(console.log)
     },
 
     addSection : async (name : string) => {
         return api.post("/section/create", {name : name})
-            .then((response) => response.data as APIResponse)
-            .catch((error) => error as APIResponse)
     },
 
     changeOrder : async (orderMap : Record<string, string>) => {
@@ -36,6 +34,10 @@ export const sectionSlice : StateCreator<SectionSlice, [] ,[], SectionSlice> = (
         })
             .then((response) => response.data as APIResponse)
             .catch((error) => error as APIResponse)
+    },
+
+    deleteSection : async (sectionId : number) => {
+        return api.delete(`/section/${sectionId}`)
     }
 
 })

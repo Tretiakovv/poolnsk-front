@@ -2,14 +2,14 @@
 
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
-import {categoryItems, productItems} from "@/data/catalogSectionHelperData";
+import {productItems} from "@/data/catalogSectionHelperData";
 import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useCatalogProductsPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import CatalogProductRow from "@/components/organisms/rows/catalog-product-row/CatalogProductRow";
-import {DraggableTableItem} from "@/types/TableTypes";
 import React from "react";
+import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
 
 const CatalogProductsPage = ({params}: {
     params: {
@@ -32,7 +32,16 @@ const CatalogProductsPage = ({params}: {
     }
 
     if (getProductsQuery.isSuccess && context.getCategoriesQuery.isSuccess) return (
-        <div>
+        <>
+            {
+                context.itemToDelete && <InfoActionPopup
+                    header={"Удаление продукта"}
+                    message={"Вы уверены, что хотите удалить продукт? Это действие нельзя отменить."}
+                    buttonText={"Удалить продукт"}
+                    onClose={() => context.setItemToDelete(undefined)}
+                    action={handleDeleteClick}
+                />
+            }
             <HeaderRow
                 backIcon
                 header={`Товары категории "${context.categoryName}"`}
@@ -49,6 +58,7 @@ const CatalogProductsPage = ({params}: {
                     sortableItems.map((item, index) => (
                         <SortableWrapper key={item.orderId} id={item.orderId ?? index}>
                             <CatalogProductRow
+                                onDelete={context.setItemToDelete}
                                 key={item.orderId}
                                 product={item}
                             />
@@ -61,7 +71,7 @@ const CatalogProductsPage = ({params}: {
                 buttonText={"Добавить продукт"}
                 onClick={handleAddProduct}
             />
-        </div>
+        </>
     );
 
 };

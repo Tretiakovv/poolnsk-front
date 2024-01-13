@@ -6,8 +6,7 @@ import {useCategoriesPage} from "@/app/catalog/section/[sectionId]/page.hooks";
 import {categoryItems} from "@/data/catalogSectionHelperData";
 import Button from "@/components/atoms/buttons/button/Button";
 import Table from "@/components/organisms/table/Table";
-import {FiPlus} from "react-icons/fi";
-import {cn} from "@/utils/cn";
+import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
 
 const CatalogCategoriesPage = ({params}: {
     params: {
@@ -31,6 +30,20 @@ const CatalogCategoriesPage = ({params}: {
     if (getCategoriesQuery.isSuccess && context.getSectionsQuery.isSuccess) {
         return (
             <>
+                {
+                    context.itemToDelete && <InfoActionPopup
+                        header={"Удаление категории"}
+                        message={"Вы уверены, что хотите удалить категорию? Это действие нельзя отменить."}
+                        buttonText={"Удалить категорию"}
+                        onClose={() => context.setItemToDelete(undefined)}
+                        action={handleDeleteClick}
+                        snackbarProps={{
+                            isOpen : context.deleteError,
+                            onClose : () => context.setDeleteError(false),
+                            message : "Чтобы удалить категорию, сначала удалите все продукты в ней."
+                        }}
+                    />
+                }
                 <HeaderRow
                     backIcon
                     header={`Категории для раздела "${context.sectionName}"`}
@@ -47,6 +60,10 @@ const CatalogCategoriesPage = ({params}: {
                     handleDragEnd={context.handleDragEnd}
                     tableHeader={categoryItems}
                     tableContent={sortableCategories}
+                    editableProps={{
+                        onDelete : context.setItemToDelete,
+                        onEdit : () => console.log("IN PROCESS..")
+                    }}
                 />
                 <Button
                     className={"mt-[30px]"}

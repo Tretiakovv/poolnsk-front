@@ -4,9 +4,21 @@ import {ProductCharacteristic} from "@/types/ProductCharacteristic";
 import {DraggableTableItem} from "@/types/TableTypes";
 import {useShallow} from "zustand/react/shallow";
 import {useStore} from "@/store/store";
-import {useMutation, useQuery} from "react-query";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 
 export const useNewProductPage = (sectionId: number, categoryId: number) => {
+
+    const queryClient = useQueryClient()
+
+    const [
+        isCreateSuccess,
+        setCreateSuccess
+    ] = useState<boolean>(false)
+
+    const [
+        isCreateError,
+        setCreateError
+    ] = useState<boolean>(false)
 
     const options: Option[] = [
         {name: "ROUBLES", value: "Рубли"},
@@ -134,7 +146,12 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
 
     const addProductMutation = useMutation({
         mutationKey : ["post", "product"],
-        mutationFn : (data: any) => addProduct(data)
+        mutationFn : (data: any) => addProduct(data),
+        onSuccess : () => {
+            queryClient.invalidateQueries(["get", "products"])
+            setCreateSuccess(true)
+        },
+        onError : () => setCreateError(true)
     })
 
     const handleSaveChanges = () => {
@@ -162,8 +179,6 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
             imageUrlList : photoNames
         }
 
-        console.log(finalData)
-
         addProductMutation.mutate(finalData)
 
     }
@@ -181,6 +196,8 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         tableItems, handleDeletePhoto, handleAddPhoto,
         getCharsQuery, chars, handleChangeCharMap, charMap,
         handleDeleteProductItem, productCharTableItems,
+        isCreateSuccess, setCreateSuccess,
+        isCreateError, setCreateError
     }
 
 }

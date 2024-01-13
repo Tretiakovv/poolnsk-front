@@ -2,9 +2,21 @@ import {useState} from "react";
 import {Characteristic} from "@/types/Characteristic";
 import {DraggableTableItem} from "@/types/TableTypes";
 import {useStore} from "@/store/store";
-import {useMutation} from "react-query";
+import {useMutation, useQueryClient} from "react-query";
 
 export const useNewCategoryPage = (sectionId : number) => {
+
+    const queryClient = useQueryClient()
+
+    const [
+        isCreateError,
+        setCreateError
+    ] = useState<boolean>(false)
+
+    const [
+        isSnackbarOpen,
+        setSnackbarOpen
+    ] = useState<boolean>(false)
 
     const [name, setName] = useState<string>("")
 
@@ -42,16 +54,22 @@ export const useNewCategoryPage = (sectionId : number) => {
 
     const addCategoryMutation = useMutation({
         mutationKey : ["post", "category"],
-        mutationFn : () => addCategory(sectionId, name, chars)
+        mutationFn : () => addCategory(sectionId, name, chars),
+        onSuccess : () => {
+            queryClient.invalidateQueries(["get", "categoryList"])
+            setSnackbarOpen(true)
+        },
+        onError : () => setCreateError(true)
     })
 
-    const handleSaveChanges = () => addCategoryMutation.mutate()
+    const handleSaveChanges = () => {
+        addCategoryMutation.mutate()
+    }
 
     return {
-        name, setName, tableItems,
-        handleAddCharacteristic,
-        handleSaveChanges,
-        handleDeleteCharacteristic
+        name, setName, tableItems, handleAddCharacteristic,
+        handleSaveChanges, handleDeleteCharacteristic,
+        isSnackbarOpen, setSnackbarOpen, isCreateError, setCreateError
     }
 
 }
