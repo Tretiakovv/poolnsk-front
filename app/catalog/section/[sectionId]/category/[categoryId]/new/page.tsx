@@ -51,6 +51,7 @@ const HelperBottomRow = ({handleAddProduct}: {
                 value={productChar.name}
                 placeholder={"Название характеристики"}
                 hintText={"Не больше 70 символов, включая пробелы и знаки препинания"}
+                maxLength={70}
                 onChange={(newName: string) => handleChangeProductChar("name", newName)}
             />
 
@@ -58,6 +59,7 @@ const HelperBottomRow = ({handleAddProduct}: {
                 value={productChar.text}
                 placeholder={"Текст характеристики"}
                 hintText={"Не больше 70 символов, включая пробелы и знаки препинания"}
+                maxLength={70}
                 onChange={(newText: string) => handleChangeProductChar("text", newText)}
             />
 
@@ -73,7 +75,10 @@ const HelperBottomRow = ({handleAddProduct}: {
 
 const ProductCharacteristicsBlock = ({chars, charMap, handleChangeCharMap}: {
     chars: ResponseChar[],
-    charMap: { id: number, value: string }[],
+    charMap: {
+        id: number,
+        value: string
+    }[],
     handleChangeCharMap: (id: number, newVal: string) => void
 }) => {
     return (
@@ -138,6 +143,7 @@ const NewProductPage = ({params}: {
                         value={context.name}
                         labelText={"Название товара"}
                         hintText={"Не больше 110 символов, включая пробелы и знаки препинания"}
+                        maxLength={110}
                         placeholder={"Введите здесь.."}
                         onChange={context.setName}
                     />
@@ -145,6 +151,7 @@ const NewProductPage = ({params}: {
                         value={context.info}
                         labelText={"Описание товара"}
                         hintText={"Не больше 330 символов, включая пробелы и знаки препинания"}
+                        maxLength={330}
                         placeholder={"Введите здесь.."}
                         onChange={context.setInfo}
                     />
@@ -152,7 +159,6 @@ const NewProductPage = ({params}: {
                         disabled
                         value={context.link}
                         labelText={"Ссылка на товар конкурента"}
-                        hintText={"Не больше 110 символов, включая пробелы и знаки препинания"}
                         placeholder={"Введите здесь.."}
                         onChange={context.setLink}
                     />
@@ -163,21 +169,22 @@ const NewProductPage = ({params}: {
                     <TextInput
                         value={context.price}
                         labelText={"Цена товара"}
-                        hintText={"Не больше 110 символов, включая пробелы и знаки препинания"}
                         placeholder={"Введите здесь.."}
                         onChange={context.setPrice}
+                        numbersOnly
                     />
 
                     <div className={"w-full grid grid-cols-2 gap-5"}>
-                        <div className={"col-span-1 flex flex-col gap-2"}>
+                        <div className={"relative col-span-1 flex flex-col gap-[15px]"}>
+                            <Text
+                                className={"text-[18px] font-semibold w-full text-main-black"}
+                                text={"Валюта"}
+                            />
                             <SelectInput
                                 options={context.options}
                                 placeholder={"Валюта"}
                                 activeOption={context.options[0]}
-                                onSelectOption={() => console.log("Select")}/>
-                            <Text
-                                className={"text-[14px] w-full text-second-gray"}
-                                text={"Цена товара будет в этой валюте"}
+                                onSelectOption={() => console.log("Select")}
                             />
                         </div>
 
@@ -194,9 +201,11 @@ const NewProductPage = ({params}: {
                     <TextInput
                         value={context.saleValue}
                         labelText={"Размер скидки (в процентах)"}
-                        hintText={"Не больше 110 символов, включая пробелы и знаки препинания"}
                         placeholder={"Введите здесь.."}
+                        rightContent={<Text text={"%"} className={"text-second-gray"}/>}
                         onChange={context.setSaleValue}
+                        maxLength={3}
+                        numbersOnly
                     />
 
                 </div>

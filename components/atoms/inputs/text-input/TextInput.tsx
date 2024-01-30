@@ -9,11 +9,21 @@ type TextInputProps = {
     labelText?: string,
     hintText?: string,
     className?: string
-    disabled ?: boolean,
-    errorMessage ?: string
+    disabled?: boolean,
+    errorMessage?: string,
+    maxLength?: number,
+    rightContent?: React.ReactNode | string,
+    numbersOnly?: boolean
 }
 
-const TextInput = (props: TextInputProps) => {
+const TextInput = ({numbersOnly = false, ...props}: TextInputProps) => {
+
+    const handleKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
+        if (numbersOnly && !/[0-9]/.test(event.key)) {
+            event.preventDefault();
+        }
+    }
+
     return (
         <div className={cn("w-full flex flex-col gap-4", props.className)}>
             {
@@ -23,13 +33,20 @@ const TextInput = (props: TextInputProps) => {
                 />
             }
             <div className={"w-full flex flex-col gap-2"}>
-                <input
-                    disabled={props.disabled}
-                    className={"w-full focus:outline-none border-2 border-second-light-blue rounded-xl px-5 py-4"}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) => props.onChange(event.target.value)}
-                    value={props.value}
-                    placeholder={props.placeholder}
-                />
+                <div className={"relative w-full"}>
+                    <input
+                        maxLength={props.maxLength}
+                        disabled={props.disabled}
+                        className={"w-full focus:outline-none border-2 border-second-light-blue rounded-xl px-5 py-4"}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) => props.onChange(event.target.value)}
+                        value={props.value}
+                        placeholder={props.placeholder}
+                        onKeyPress={handleKeyPress}
+                    />
+                    <div className={"absolute z-10 right-5 top-[18px]"}>
+                        {props.rightContent}
+                    </div>
+                </div>
                 {
                     props.hintText && <Text
                         className={"text-[14px] text-second-gray"}

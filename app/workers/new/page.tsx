@@ -25,6 +25,7 @@ const AddWorkerForm = ({inputData}: {
                                         value={input.value}
                                         labelText={input.labelText}
                                         hintText={"Не больше 60 символов, включая пробелы и знаки препинания"}
+                                        maxLength={60}
                                         placeholder={"Введите здесь.."}
                                         onChange={input.action}
                                     />

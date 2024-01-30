@@ -45,6 +45,7 @@ const NewSectionPage = () => {
                     labelText={"Название раздела"}
                     hintText={"Не больше 60 символов, включая пробелы и знаки препинания"}
                     placeholder={"Введите здесь.."}
+                    maxLength={60}
                     onChange={setSectionName}
                 />
                 <Button

@@ -39,7 +39,7 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
     const [
         charMap,
         setCharMap
-    ] = useState<{id : number, value : string}[]>([])
+    ] = useState<{ id: number, value: string }[]>([])
 
     const [
         productChars,
@@ -54,16 +54,16 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
     const handleAddProductCharacteristic = (productChar: ProductCharacteristic) => {
         setProductChars(state => [...state, productChar])
         setProductCharTableItems(state => {
-            const newItem : DraggableTableItem = {
-                id : productCharTableItems.length,
-                orderId : productCharTableItems.length + 1,
-                items : [productChar.name, productChar.text]
+            const newItem: DraggableTableItem = {
+                id: productCharTableItems.length,
+                orderId: productCharTableItems.length + 1,
+                items: [productChar.name, productChar.text]
             }
             return [...state, newItem]
         })
     }
 
-    const handleDeleteProductItem = (itemToDelete : DraggableTableItem) => {
+    const handleDeleteProductItem = (itemToDelete: DraggableTableItem) => {
         const preparedTableItems = productCharTableItems.map((item) => {
             if (item.id != itemToDelete.id) {
                 return {...item, orderId: item.orderId - 1}
@@ -76,10 +76,10 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         setProductChars(state => state.filter((item) => item.name !== itemToDelete.items[0]))
     }
 
-    const handleChangeCharMap = (id : number, newVal : string) => {
+    const handleChangeCharMap = (id: number, newVal: string) => {
         setCharMap((state) => {
             return state.map((item) => {
-                if (item.id == id) return {...item, value : newVal}
+                if (item.id == id) return {...item, value: newVal}
                 else return item
             })
         })
@@ -93,15 +93,15 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
 
     const mapCharToMap = () => {
         const newItems = chars.map((item) => {
-            return {id : item.id, value : ""}
+            return {id: item.id, value: ""}
         })
         setCharMap(newItems)
     }
 
     const getCharsQuery = useQuery({
-        queryKey : ["get", "chars", categoryId],
-        queryFn : () => getChars(categoryId),
-        onSuccess : () => mapCharToMap()
+        queryKey: ["get", "chars", categoryId],
+        queryFn: () => getChars(categoryId),
+        onSuccess: () => mapCharToMap()
     })
 
     const [
@@ -145,13 +145,13 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
     }
 
     const addProductMutation = useMutation({
-        mutationKey : ["post", "product"],
-        mutationFn : (data: any) => addProduct(data),
-        onSuccess : () => {
+        mutationKey: ["post", "product"],
+        mutationFn: (data: any) => addProduct(data),
+        onSuccess: () => {
             queryClient.invalidateQueries(["get", "products"])
             setCreateSuccess(true)
         },
-        onError : () => setCreateError(true)
+        onError: () => setCreateError(true)
     })
 
     const handleSaveChanges = () => {
@@ -169,14 +169,14 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         })
 
         const finalData = {
-            categoryId : categoryId,
-            name : name,
-            price : +price,
-            discount : +saleValue,
-            propertyMap : propertyMap,
-            extraPropertyMap : extraPropMap,
-            info : info,
-            imageUrlList : photoNames
+            categoryId: categoryId,
+            name: name,
+            price: +price,
+            discount: +saleValue,
+            propertyMap: propertyMap,
+            extraPropertyMap: extraPropMap,
+            info: info,
+            imageUrlList: photoNames
         }
 
         addProductMutation.mutate(finalData)

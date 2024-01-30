@@ -77,6 +77,7 @@ const HelperBottomRow = ({handleAddCharacteristic}: {
                 value={characteristic.name}
                 placeholder={"Название характеристики"}
                 hintText={"Не больше 70 символов, включая пробелы и знаки препинания"}
+                maxLength={70}
                 onChange={(newName: string) => handleChangeCharacteristic("name", newName)}
             />
 
@@ -132,6 +133,7 @@ const NewCategoryPage = ({params} : {
                     value={context.name}
                     labelText={"Название категории"}
                     hintText={"Не больше 110 символов, включая пробелы и знаки препинания"}
+                    maxLength={110}
                     placeholder={"Введите здесь.."}
                     onChange={context.setName}
                 />
