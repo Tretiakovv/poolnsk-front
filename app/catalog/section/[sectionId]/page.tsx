@@ -5,8 +5,14 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import {useCategoriesPage} from "@/app/catalog/section/[sectionId]/page.hooks";
 import {categoryItems} from "@/data/catalogSectionHelperData";
 import Button from "@/components/atoms/buttons/button/Button";
-import Table from "@/components/organisms/table/Table";
 import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import("@/components/organisms/table/Table"),
+    {loading: () => <Loading/>}
+)
 
 const CatalogCategoriesPage = ({params}: {
     params: {
@@ -19,14 +25,6 @@ const CatalogCategoriesPage = ({params}: {
         handleAddCategory, handleDeleteClick, handleEditClick, handleItemClick, ...context
     } = useCategoriesPage(params.sectionId)
 
-    if (getCategoriesQuery.isLoading || context.getSectionsQuery.isLoading) {
-        return (
-            <div>
-                Categories is loading..
-            </div>
-        )
-    }
-
     if (getCategoriesQuery.isSuccess && context.getSectionsQuery.isSuccess) {
         return (
             <>
@@ -38,9 +36,9 @@ const CatalogCategoriesPage = ({params}: {
                         onClose={() => context.setItemToDelete(undefined)}
                         action={handleDeleteClick}
                         snackbarProps={{
-                            isOpen : context.deleteError,
-                            onClose : () => context.setDeleteError(false),
-                            message : "Чтобы удалить категорию, сначала удалите все продукты в ней."
+                            isOpen: context.deleteError,
+                            onClose: () => context.setDeleteError(false),
+                            message: "Чтобы удалить категорию, сначала удалите все продукты в ней."
                         }}
                     />
                 }
@@ -61,8 +59,8 @@ const CatalogCategoriesPage = ({params}: {
                     tableHeader={categoryItems}
                     tableContent={sortableCategories}
                     editableProps={{
-                        onDelete : context.setItemToDelete,
-                        onEdit : () => console.log("IN PROCESS..")
+                        onDelete: context.setItemToDelete,
+                        onEdit: () => console.log("IN PROCESS..")
                     }}
                 />
                 <Button

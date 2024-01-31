@@ -2,19 +2,16 @@
 
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
 import {useControlPanelOrderPage} from "@/app/control-panel/orders/page.hooks";
-import OrderList from "@/components/organisms/order-list/OrderList";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const OrderList = dynamic(
+    () => import("@/components/organisms/order-list/OrderList"),
+    {loading : () => <Loading/>})
 
 const ControlPanelOrdersPage = () => {
 
     const context = useControlPanelOrderPage()
-
-    if (context.getOrdersQuery.isLoading) {
-        return (
-            <div>
-                Orders is loading..
-            </div>
-        )
-    }
 
     if (context.getOrdersQuery.isSuccess) {
         return (

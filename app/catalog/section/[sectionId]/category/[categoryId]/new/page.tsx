@@ -63,6 +63,8 @@ const HelperBottomRow = ({handleAddProduct}: {
                 onChange={(newText: string) => handleChangeProductChar("text", newText)}
             />
 
+            div.text-black
+
             <Button
                 className={"h-[60px]"}
                 icon={<FiPlus size={"20px"} className={"stroke-main-white"}/>}

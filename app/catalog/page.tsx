@@ -4,12 +4,18 @@ import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Button from "@/components/atoms/buttons/button/Button";
 import {sectionItems} from "@/data/catalogSectionHelperData";
 import {useCatalogSectionsPage} from "@/app/catalog/page.hooks";
-import Table from "@/components/organisms/table/Table";
 import {ClassValue} from "clsx";
 import {cn} from "@/utils/cn";
 import {FiPlus} from "react-icons/fi";
 import React from "react";
 import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import ("@/components/organisms/table/Table"),
+    {loading: () => <Loading/>}
+)
 
 const CatalogSectionsPage = () => {
 
@@ -23,14 +29,6 @@ const CatalogSectionsPage = () => {
         "flex flex-row items-center gap-2 bg-second-light-blue",
         "text-main-black hover:bg-main-blue hover:text-main-white"
     ]
-
-    if (getSectionsQuery.isLoading) {
-        return (
-            <div>
-                Loading..
-            </div>
-        )
-    }
 
     if (getSectionsQuery.isSuccess) {
         return (

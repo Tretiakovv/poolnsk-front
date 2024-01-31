@@ -2,10 +2,15 @@
 
 import {useWorkersPage} from "@/app/workers/page.hooks";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import Table from "@/components/organisms/table/Table";
 import {workerPageTableHeader} from "@/data/workersPageData";
 import {FiPlus} from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import("@/components/organisms/table/Table"),
+    {loading : () => <Loading/>})
 
 const WorkersPage = () => {
 
@@ -13,14 +18,6 @@ const WorkersPage = () => {
         tableWorkers, getWorkersQuery,
         ...context
     } = useWorkersPage()
-
-    if (getWorkersQuery.isLoading) {
-        return (
-            <div>
-                Sales is loading..
-            </div>
-        )
-    }
 
     if (getWorkersQuery.isSuccess) {
         return (
@@ -46,4 +43,4 @@ const WorkersPage = () => {
 
 };
 
-export default WorkersPage;
+export default WorkersPage

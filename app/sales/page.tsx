@@ -4,8 +4,13 @@ import {useSalesPage} from "@/app/sales/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Text from "@/components/atoms/text/Text";
-import Table from "@/components/organisms/table/Table";
 import {salesPageTableHeaders} from "@/data/salesPageData";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import("@/components/organisms/table/Table"),
+    {loading : () => <Loading/>})
 
 const SalesPage = () => {
 
@@ -13,14 +18,6 @@ const SalesPage = () => {
         sortablePromotions, getPromotionsQuery,
         isPublished, handlePublish, handleDragEnd
     } = useSalesPage()
-
-    if (getPromotionsQuery.isLoading) {
-        return (
-            <div>
-                Sales is loading..
-            </div>
-        )
-    }
 
     if (getPromotionsQuery.isSuccess) {
         return (

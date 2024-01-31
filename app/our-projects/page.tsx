@@ -3,9 +3,14 @@
 import {useOurProjectsPage} from "@/app/our-projects/page.hooks";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import Button from "@/components/atoms/buttons/button/Button";
-import Table from "@/components/organisms/table/Table";
 import {ourProjectsTableHeaders} from "@/data/ourProjectsPageData";
 import Text from "@/components/atoms/text/Text";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import("@/components/organisms/table/Table"),
+    {loading : () => <Loading/>})
 
 const OutProjectsPage = () => {
 
@@ -13,14 +18,6 @@ const OutProjectsPage = () => {
         sortableProjects, getProjectsQuery,
         isPublished, handlePublish,
     } = useOurProjectsPage()
-
-    if (getProjectsQuery.isLoading) {
-        return (
-            <div>
-                Our projects is loading..
-            </div>
-        )
-    }
 
     if (getProjectsQuery.isSuccess) {
         return (

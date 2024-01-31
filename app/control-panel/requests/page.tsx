@@ -2,13 +2,17 @@
 
 import {useControlPanelRequestsPage} from "@/app/control-panel/requests/page.hooks";
 import MultiselectButton from "@/components/atoms/buttons/multiselect-button/MultiselectButton";
-import Table from "@/components/organisms/table/Table";
 import {
     callTableHeaders,
     questionTableHeader,
     serviceTableHeader
 } from "@/data/controlPanelRequestsPageData";
-import Button from "@/components/atoms/buttons/button/Button";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const Table = dynamic(
+    () => import("@/components/organisms/table/Table"),
+    {loading : () => <Loading/>})
 
 const ControlPanelRequestsPage = () => {
 
@@ -17,14 +21,6 @@ const ControlPanelRequestsPage = () => {
     const tableHeaders = context.activeRequestType === "call"
         ? callTableHeaders : context.activeRequestType === "question"
         ? questionTableHeader : serviceTableHeader
-
-    if (context.getRequestsQuery.isLoading) {
-        return (
-            <div>
-                Requests page is loading..
-            </div>
-        )
-    }
 
     if (context.getRequestsQuery.isSuccess) {
         return (

@@ -3,13 +3,19 @@
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
 import {productItems} from "@/data/catalogSectionHelperData";
-import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useCatalogProductsPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/page.hooks";
 import CatalogProductRow from "@/components/organisms/rows/catalog-product-row/CatalogProductRow";
 import React from "react";
 import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
+import dynamic from "next/dynamic";
+import Loading from "@/components/atoms/loading/Loading";
+
+const SortableListWrapper = dynamic(
+    () => import("@/components/wrappers/sortable-list-wrapper/SortableListWrapper"),
+    {loading: () => <Loading/>}
+)
 
 const CatalogProductsPage = ({params}: {
     params: {
@@ -22,14 +28,6 @@ const CatalogProductsPage = ({params}: {
         sortableItems, handleDeleteClick,
         handleEditClick, handleAddProduct, getProductsQuery, ...context
     } = useCatalogProductsPage(params.sectionId, params.categoryId)
-
-    if (getProductsQuery.isLoading || context.getCategoriesQuery.isLoading) {
-        return (
-            <div>
-                Page is loading..
-            </div>
-        )
-    }
 
     if (getProductsQuery.isSuccess && context.getCategoriesQuery.isSuccess) return (
         <>
