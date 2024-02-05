@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const api = axios.create({
-    baseURL : "http://poolnsk.ru/api/",
+    baseURL : "https://poolnsk.ru/api/",
 })
