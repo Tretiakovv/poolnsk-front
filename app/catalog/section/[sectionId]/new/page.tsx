@@ -104,6 +104,8 @@ const HelperBottomRow = ({handleAddCharacteristic}: {
     )
 }
 
+
+
 const NewCategoryPage = ({params} : {
     params : {
         sectionId : number

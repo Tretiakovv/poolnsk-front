@@ -16,7 +16,7 @@ const OutProjectsPage = () => {
 
     const {
         sortableProjects, getProjectsQuery,
-        isPublished, handlePublish,
+        isPublished, handlePublish, handleAddProject
     } = useOurProjectsPage()
 
     if (getProjectsQuery.isSuccess) {
@@ -39,11 +39,17 @@ const OutProjectsPage = () => {
                         </div>
                     }
                 />
-                <Table
-                    draggable
-                    tableHeader={ourProjectsTableHeaders}
-                    tableContent={sortableProjects}
-                />
+                <div className={"w-full flex flex-col gap-5"}>
+                    <Table
+                        draggable
+                        tableHeader={ourProjectsTableHeaders}
+                        tableContent={sortableProjects}
+                    />
+                    <Button
+                        buttonText={"Добавить"}
+                        onClick={handleAddProject}
+                    />
+                </div>
             </>
         );
     }

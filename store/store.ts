@@ -6,10 +6,11 @@ import {projectsSlice, ProjectsSlice} from "@/store/slices/projectsSlice";
 import {workersSlice, WorkersSlice} from "@/store/slices/workersSlice";
 import {ControlPanelSlice, controlPanelSlice} from "@/store/slices/controlPanelSlice";
 import {ProductSlice, productSlice} from "@/store/slices/productSlice";
+import {ourProjectSlice, OurProjectsSlice} from "@/store/slices/ourProjectsSlice";
 
 type StoreSlices = SectionSlice & CategorySlice &
     PromotionsSlice & ProjectsSlice & WorkersSlice & ControlPanelSlice
-    & ProductSlice
+    & ProductSlice & OurProjectsSlice
 
 export const useStore = create<StoreSlices>()
 ((...config) => ({
@@ -19,5 +20,6 @@ export const useStore = create<StoreSlices>()
     ...projectsSlice(...config),
     ...workersSlice(...config),
     ...controlPanelSlice(...config),
-    ...productSlice(...config)
+    ...productSlice(...config),
+    ...ourProjectSlice(...config)
 }))

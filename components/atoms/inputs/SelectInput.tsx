@@ -9,7 +9,7 @@ type SelectInputProps = {
     options: Option[],
     activeOption: Option | undefined,
     onSelectOption: (option: Option) => void,
-    placeholder: string,
+    placeholder ?: string,
     className?: string
 }
 
@@ -31,7 +31,13 @@ const SelectInput = (props: SelectInputProps) => {
         <div className={cn("w-full flex flex-col", props.className)}>
             <div className={cn(wrapperCV)}>
                 <div className={"flex flex-row items-center justify-between"}>
-                    <Text text={props.activeOption?.value ?? props.placeholder} className={cn(textCV)}/>
+                    {
+                        typeof props.activeOption?.value === "string" ?
+                            <Text
+                                text={props.activeOption?.value ?? props.placeholder}
+                                className={cn(textCV)}
+                            /> : props.activeOption?.value
+                    }
                     <ChevronButton isExpanded={isExpanded} setExpanded={setExpanded}/>
                 </div>
                 {

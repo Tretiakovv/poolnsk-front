@@ -10,6 +10,7 @@ type PhotoInputProps = {
     onClear: () => void,
     hintText?: string,
     className?: string,
+    labelText?: string
 }
 
 const PhotoInput = (props: PhotoInputProps) => {
@@ -42,29 +43,37 @@ const PhotoInput = (props: PhotoInputProps) => {
 
     return (
         <div className={"flex flex-col gap-2"}>
-            <div className={cn(inputCV)}>
-                <Text
-                    text={props.value?.name ?? "Выберите фотографию"}
-                    className={cn(textCV)}
-                />
+            <div className={"flex flex-col gap-4"}>
                 {
-                    props.value !== undefined ?
-                        <FiX size={"20px"}
-                             className={cn(iconCV, "hover:stroke-indicator-text-red")}
-                             onClick={props.onClear}
-                        /> : <FiUpload
-                            size={"20px"}
-                            className={cn(iconCV)}
-                            onClick={handleClick}
-                        />
+                    props.labelText && <Text
+                        text={props.labelText}
+                        className={"text-[18px] font-semibold text-main-black"}
+                    />
                 }
-                <input
-                    onClick={handleInputClear}
-                    onChange={props.onChange}
-                    ref={inputRef as LegacyRef<HTMLInputElement>}
-                    className={"w-full hidden absolute left-0 top-0"}
-                    type={"file"}
-                />
+                <div className={cn(inputCV)}>
+                    <Text
+                        text={props.value?.name ?? "Выберите фотографию"}
+                        className={cn(textCV)}
+                    />
+                    {
+                        props.value !== undefined ?
+                            <FiX size={"20px"}
+                                 className={cn(iconCV, "hover:stroke-indicator-text-red")}
+                                 onClick={props.onClear}
+                            /> : <FiUpload
+                                size={"20px"}
+                                className={cn(iconCV)}
+                                onClick={handleClick}
+                            />
+                    }
+                    <input
+                        onClick={handleInputClear}
+                        onChange={props.onChange}
+                        ref={inputRef as LegacyRef<HTMLInputElement>}
+                        className={"w-full hidden absolute left-0 top-0"}
+                        type={"file"}
+                    />
+                </div>
             </div>
             {
                 props.hintText && <Text
