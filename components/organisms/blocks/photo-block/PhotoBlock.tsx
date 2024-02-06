@@ -23,7 +23,12 @@ const PhotoBlock = (props: PhotoBlockProps) => {
     return (
         <div className={"w-full flex flex-col gap-10"}>
             <Text text={"Фотографии товара"} className={cn(headerCV)}/>
-            <Text text={"Фотография"} className={"text-base text-second-gray"}/>
+            {
+                props.photos.length !== 0 && <Text
+                    text={"Фотография"}
+                    className={"text-base text-second-gray"}
+                />
+            }
             <div className={"flex flex-col gap-5"}>
                 {
                     props.photos.map((item) => (

@@ -20,7 +20,9 @@ import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
 import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
-import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
+import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar"
+import {ValueType} from "@/types/ValueType";
+import TextArea from "@/components/atoms/inputs/text-area/TextArea";
 
 const helperHintRow: TextItem[] = [
     {text: "Дополнительная характеристика товара"},
@@ -45,7 +47,7 @@ const HelperBottomRow = ({handleAddProduct}: {
     }
 
     return (
-        <div className={"pl-[62px] w-full flex flex-row items-start gap-[20px]"}>
+        <div className={"w-full flex flex-row items-start gap-[20px]"}>
 
             <TextInput
                 value={productChar.name}
@@ -63,8 +65,6 @@ const HelperBottomRow = ({handleAddProduct}: {
                 onChange={(newText: string) => handleChangeProductChar("text", newText)}
             />
 
-            div.text-black
-
             <Button
                 className={"h-[60px]"}
                 icon={<FiPlus size={"20px"} className={"stroke-main-white"}/>}
@@ -77,12 +77,17 @@ const HelperBottomRow = ({handleAddProduct}: {
 
 const ProductCharacteristicsBlock = ({chars, charMap, handleChangeCharMap}: {
     chars: ResponseChar[],
-    charMap: {
-        id: number,
-        value: string
-    }[],
+    charMap: { id: number, value: string }[],
     handleChangeCharMap: (id: number, newVal: string) => void
 }) => {
+
+    const createHintText = (valueType : ValueType) : string => {
+        const prefixString = "Введите в данное поле "
+        const postfixString = valueType === "STRING" ? "строковое"
+            : (valueType === "INTEGER" ? "целочисленное" : "нецелое")
+        return prefixString.concat(postfixString).concat(" значение")
+    }
+
     return (
         <div className={"w-full grid grid-cols-12 gap-5"}>
             {
@@ -92,9 +97,11 @@ const ProductCharacteristicsBlock = ({chars, charMap, handleChangeCharMap}: {
                         <TextInput
                             value={curItem?.value ?? ""}
                             labelText={item.name}
-                            hintText={"Это обязательная характеристика категории"}
+                            hintText={createHintText(item.valueType)}
+                            rightContent={item.valueType}
                             placeholder={"Введите здесь.."}
                             onChange={(newVal: string) => handleChangeCharMap(item.id, newVal)}
+                            numbersOnly={item.valueType !== "STRING"}
                             className={"col-span-4"}
                         />
                     )
@@ -150,6 +157,13 @@ const NewProductPage = ({params}: {
                         onChange={context.setName}
                     />
                     <TextInput
+                        disabled
+                        value={context.link}
+                        labelText={"Ссылка на товар конкурента"}
+                        placeholder={"Введите здесь.."}
+                        onChange={context.setLink}
+                    />
+                    <TextArea
                         value={context.info}
                         labelText={"Описание товара"}
                         hintText={"Не больше 330 символов, включая пробелы и знаки препинания"}
@@ -157,13 +171,7 @@ const NewProductPage = ({params}: {
                         placeholder={"Введите здесь.."}
                         onChange={context.setInfo}
                     />
-                    <TextInput
-                        disabled
-                        value={context.link}
-                        labelText={"Ссылка на товар конкурента"}
-                        placeholder={"Введите здесь.."}
-                        onChange={context.setLink}
-                    />
+
                 </div>
 
                 <div className={"w-full flex flex-row gap-5 pb-10 border-b-2 border-second-light-blue"}>

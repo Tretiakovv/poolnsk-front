@@ -25,7 +25,7 @@ const AddPhotoBlock = ({handleAddPhoto}: {
     const handleClear = () => setPhoto(undefined)
 
     return (
-        <div className={"pl-[62px] w-full flex flex-row items-start gap-[20px]"}>
+        <div className={"w-full flex flex-row items-start gap-[20px]"}>
 
             <PhotoInput
                 value={photo}

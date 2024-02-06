@@ -1,28 +1,10 @@
 import React, {ChangeEvent} from 'react';
-import Text from "@/components/atoms/text/Text";
+import {TextInputProps} from "@/components/atoms/inputs/text-input/TextInput";
 import {cn} from "@/utils/cn";
+import Text from "@/components/atoms/text/Text";
 
-export type TextInputProps = {
-    value: string,
-    placeholder: string,
-    onChange: (newVal: string) => void,
-    labelText?: string,
-    hintText?: string,
-    className?: string
-    disabled?: boolean,
-    errorMessage?: string,
-    maxLength?: number,
-    rightContent?: React.ReactNode | string,
-    numbersOnly?: boolean
-}
 
-const TextInput = ({numbersOnly = false, ...props}: TextInputProps) => {
-
-    const handleKeyPress = (event : React.KeyboardEvent<HTMLInputElement>) => {
-        if (numbersOnly && !/[0-9.]/.test(event.key)) {
-            event.preventDefault();
-        }
-    }
+const TextArea = (props : TextInputProps) => {
 
     return (
         <div className={cn("w-full flex flex-col gap-4", props.className)}>
@@ -34,14 +16,13 @@ const TextInput = ({numbersOnly = false, ...props}: TextInputProps) => {
             }
             <div className={"w-full flex flex-col gap-2"}>
                 <div className={"relative w-full"}>
-                    <input
+                    <textarea
                         maxLength={props.maxLength}
                         disabled={props.disabled}
-                        className={"w-full focus:outline-none border-2 border-second-light-blue rounded-xl px-5 py-4"}
-                        onChange={(event: ChangeEvent<HTMLInputElement>) => props.onChange(event.target.value)}
+                        className={"min-h-[100px] max-h-[200px] w-full focus:outline-none border-2 border-second-light-blue rounded-xl px-5 py-4"}
+                        onChange={(event: ChangeEvent<HTMLTextAreaElement>) => props.onChange(event.target.value)}
                         value={props.value}
                         placeholder={props.placeholder}
-                        onKeyPress={handleKeyPress}
                     />
                     <div className={"absolute z-10 right-5 top-[18px]"}>
                         {props.rightContent}
@@ -64,4 +45,4 @@ const TextInput = ({numbersOnly = false, ...props}: TextInputProps) => {
     );
 };
 
-export default TextInput;
+export default TextArea;
