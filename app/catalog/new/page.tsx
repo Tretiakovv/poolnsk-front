@@ -6,7 +6,7 @@ import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import {useStore} from "@/store/store";
 import Button from "@/components/atoms/buttons/button/Button";
 import {useMutation} from "react-query";
-import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
+import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
 
 const NewSectionPage = () => {
@@ -33,7 +33,7 @@ const NewSectionPage = () => {
                 isOpen={isCreateError}
                 onClose={() => setCreateError(false)}
             />
-            <SuccessBackSnackbar
+            <SuccessSnackbar
                 message={"Раздел был создан успешно! Вы можете вернуться назад."}
                 isOpen={isOpen}
                 onClose={() => setOpen(false)}

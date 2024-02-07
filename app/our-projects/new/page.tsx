@@ -29,7 +29,9 @@ import {
     FiZap
 } from "react-icons/fi";
 import Button from "@/components/atoms/buttons/button/Button";
-import {OurProjectChar, OurProjectCharView} from "@/types/dto/OurProjectChar";
+import {OurProjectCharView} from "@/types/dto/OurProjectChar";
+import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
+import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 
 const HelperBottomRow = ({onAddChar}: {
     onAddChar: (projectChar: OurProjectCharView) => void
@@ -101,6 +103,16 @@ const NewProjectPage = () => {
 
     return (
         <>
+            <ErrorSnackbar
+                message={"Поля формы не могут быть пустыми."}
+                isOpen={context.errorState}
+                onClose={() => context.setErrorState(false)}
+            />
+            <SuccessSnackbar
+                message={"Работа создана успешно! Вы можете вернуться назад"}
+                isOpen={context.successState}
+                onClose={() => context.setSuccessState(false)}
+            />
             <HeaderRow
                 backIcon
                 header={`Новая работа`}

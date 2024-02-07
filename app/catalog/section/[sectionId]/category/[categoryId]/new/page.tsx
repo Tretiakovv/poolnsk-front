@@ -19,7 +19,7 @@ import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrap
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
-import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
+import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar"
 import {ValueType} from "@/types/ValueType";
 import TextArea from "@/components/atoms/inputs/text-area/TextArea";
@@ -136,7 +136,7 @@ const NewProductPage = ({params}: {
                 isOpen={context.isCreateError}
                 onClose={() => context.setCreateError(false)}
             />
-            <SuccessBackSnackbar
+            <SuccessSnackbar
                 message={"Товар был создан успешно! Вы можете вернуться назад."}
                 isOpen={context.isCreateSuccess}
                 onClose={() => context.setCreateSuccess(false)}

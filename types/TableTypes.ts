@@ -1,10 +1,11 @@
 import {SortableProps} from "@/types/components/SortableProps";
 import {TextLinkItem} from "@/types/TextLinkItem";
 import {DragEndEvent} from "@dnd-kit/core";
+import React from "react";
 
 export type TableItem = {
     id: number
-    items: string[] | TextLinkItem[]
+    items: (string | React.ReactNode)[] | TextLinkItem[]
 }
 
 export type DraggableTableItem = {
@@ -16,8 +17,8 @@ export type TableClassNames = {
 }
 
 type EditableProps = {
-    onDelete?: (item : TableItem) => void,
-    onEdit?: (item : TableItem) => void,
+    onDelete?: (item: TableItem) => void,
+    onEdit?: (item: TableItem) => void,
 }
 
 export type TableContentProps = {
@@ -26,7 +27,7 @@ export type TableContentProps = {
     handleDragEnd?: (event: DragEndEvent) => void,
     classNames?: TableClassNames,
     draggable?: boolean,
-    editableProps ?: EditableProps,
+    editableProps?: EditableProps,
     items?: any[],
 }
 

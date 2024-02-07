@@ -7,6 +7,7 @@ import {TableItemProps} from "@/types/TableTypes";
 import {useTableRow} from "@/components/organisms/table/talbe-item/TableRow.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import DeleteEditRow from "@/components/moleculas/rows/delete-edit-row/DeleteEditRow";
+import {TextLinkItem} from "@/types/TextLinkItem";
 
 const TableRow = (props: TableItemProps) => {
 
@@ -44,10 +45,10 @@ const TableRow = (props: TableItemProps) => {
             >
                 <div className={"flex flex-row items-center gap-[20px]"}>
                     {
-                        props.tableItem.items.map((item) => {
+                        props.tableItem?.items?.map((item) => {
                             if (typeof item !== "string") {
                                 return (
-                                    <div onClick={() => console.log(item.link)}>
+                                    <div onClick={() => console.log((item as TextLinkItem).link)}>
                                         <Text
                                             text={"Открыть комментарий"}
                                             className={cn(textCV, "text-main-blue")}

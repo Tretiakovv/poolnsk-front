@@ -19,7 +19,7 @@ import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/Sor
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
-import SuccessBackSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessBackSnackbar";
+import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
 
 const helperHintRow: TextItem[] = [
@@ -121,7 +121,7 @@ const NewCategoryPage = ({params} : {
                 isOpen={context.isCreateError}
                 onClose={() => context.setCreateError(false)}
             />
-            <SuccessBackSnackbar
+            <SuccessSnackbar
                 message={"Категория была создана успешно! Вы можете вернуться назад."}
                 isOpen={context.isSnackbarOpen}
                 onClose={() => context.setSnackbarOpen(false)}

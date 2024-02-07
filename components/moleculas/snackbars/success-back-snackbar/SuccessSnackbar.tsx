@@ -4,7 +4,9 @@ import Snackbar from "@mui/joy/Snackbar";
 import {useRouter} from "next/navigation";
 import {SnackbarProps} from "@/types/components/SnackbarProps";
 
-const SuccessBackSnackbar = (props : SnackbarProps) => {
+type SuccessSnackbarProps = {hasBackIcon ?: boolean} & SnackbarProps
+
+const SuccessSnackbar = ({hasBackIcon = true, ...props} : SuccessSnackbarProps) => {
 
     const router = useRouter()
 
@@ -15,11 +17,11 @@ const SuccessBackSnackbar = (props : SnackbarProps) => {
             size={"lg"}
             onClose={props.onClose}
             open={props.isOpen}
-            endDecorator={
+            endDecorator={ hasBackIcon &&
                 <FiArrowRight
-                    size={"20px"}
                     className={"hoverable stroke-indicator-text-green hover:stroke-green-800"}
                     onClick={() => router.back()}
+                    size={"20px"}
                 />
             }
         >
@@ -28,4 +30,4 @@ const SuccessBackSnackbar = (props : SnackbarProps) => {
     );
 };
 
-export default SuccessBackSnackbar;
+export default SuccessSnackbar;

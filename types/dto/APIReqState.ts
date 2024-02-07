@@ -1,0 +1,1 @@
+export type APIReqState = "success" | "error" | "idle"

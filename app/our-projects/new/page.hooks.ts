@@ -7,6 +7,9 @@ import {OurProject} from "@/types/dto/OurProject";
 
 export const useNewProjectPage = () => {
 
+    const [errorState, setErrorState] = useState<boolean>(false)
+    const [successState, setSuccessState] = useState<boolean>(false)
+
     const [projectName, setProjectName] = useState<string>("")
     const [projectType, setProjectType] = useState<string>("")
     const [projectDuration, setProjectDuration] = useState<string>("")
@@ -54,29 +57,38 @@ export const useNewProjectPage = () => {
 
     const createOurProject = () => {
         const ourProjectCharsDTO: OurProjectChar[] = ourProjectChars.map(char => {
-            return {name : char.name, fileName : char.icon.name, info : char.info}
+            return {name: char.name, fileName: char.icon.name, info: char.info}
         })
         return {
             name: projectName,
             workType: projectType,
             terms: projectDuration,
             imageFilenameList: [],
-            projectPropertyDtoList : ourProjectCharsDTO
+            projectPropertyDtoList: ourProjectCharsDTO
         } as OurProject
     }
 
     const addOurProject = useStore(state => state.addOurProject)
     const addOurProjectMutation = useMutation({
+        // @ts-ignore
         mutationKey: ["add", "ourProject"],
         mutationFn: () => {
             const ourProject = createOurProject()
-            console.log("PROJECT", ourProject)
             addOurProject(ourProject)
         },
-        onSuccess : () => console.log("SUCCESS")
+        onSuccess: () => setSuccessState(true),
+        onError: () => setSuccessState(false)
     })
 
-    const handleAddOurProject = () => addOurProjectMutation.mutate()
+
+    const handleAddOurProject = () => {
+        if (projectName === "" || projectType === "" || projectDuration === "" || !photo) {
+            setErrorState(true)
+        } else {
+            addOurProjectMutation.mutate()
+            setErrorState(false)
+        }
+    }
 
     return {
         nameInput: {projectName, setProjectName},
@@ -84,7 +96,7 @@ export const useNewProjectPage = () => {
         durationInput: {projectDuration, setProjectDuration},
         photoInput: {photo, handleChangePhoto, handleClearPhoto},
         handleAddOurProjectChar, handleDeleteOurProjectChar, ourProjectCharTableItems,
-        handleAddOurProject
+        handleAddOurProject, successState, setSuccessState, errorState, setErrorState
     }
 
 }
