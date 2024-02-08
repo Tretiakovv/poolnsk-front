@@ -46,7 +46,7 @@ const TableRow = (props: TableItemProps) => {
                 <div className={"flex flex-row items-center gap-[20px]"}>
                     {
                         props.tableItem?.items?.map((item) => {
-                            if (typeof item !== "string") {
+                            if (item && typeof item !== "string") {
                                 return (
                                     <div onClick={() => console.log((item as TextLinkItem).link)}>
                                         <Text
@@ -56,7 +56,7 @@ const TableRow = (props: TableItemProps) => {
                                     </div>
                                 )
                             } else return <Text
-                                text={item as string}
+                                text={item as string ?? "—"}
                                 className={cn(textCV)}
                             />
                         })

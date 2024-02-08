@@ -1,12 +1,28 @@
 import {useStore} from "@/store/store";
 import {useShallow} from "zustand/react/shallow";
-import {useQuery} from "react-query";
-import {DraggableTableItem} from "@/types/TableTypes";
+import {useMutation, useQuery, useQueryClient} from "react-query";
 import {useState} from "react";
 import {DragEndEvent} from "@dnd-kit/core";
-import {arrayMove} from "@dnd-kit/sortable";
+import {usePathname, useRouter} from "next/navigation";
+import {useDragEnd} from "@/utils/hooks/useDragEnd";
+import {Promotion} from "@/types/dto/Promotion";
+import {SortableItem} from "@/types/Sortable";
+import {useToggle} from "@/utils/hooks/useToggle";
+
+const NOT_EXIST_INDEX = -1
 
 export const useSalesPage = () => {
+
+    const router = useRouter()
+    const pathname = usePathname()
+    const queryClient = useQueryClient()
+
+    const [
+        indexToDelete,
+        setIndexToDelete
+    ] = useState<number>(NOT_EXIST_INDEX)
+
+    const {...deleteToggle} = useToggle(false)
 
     const [promotions, getPromotions] = useStore(
         useShallow(state =>
@@ -16,25 +32,15 @@ export const useSalesPage = () => {
     const [
         sortablePromotions,
         setSortablePromotions
-    ] = useState<DraggableTableItem[]>([])
-
-    const [
-        isPublished,
-        setIsPublished
-    ] = useState<boolean>(false)
+    ] = useState<SortableItem<Promotion>[]>([])
 
     const mapPromotionsToDraggableItems = () => {
-        return promotions.map((item) => {
-
-            const promotionType = item.createdByPhoto
-                ? "Акция-картинка" : "Акция-товар"
-
+        return promotions.map((item : Promotion) => {
             return new Object({
                 id : item.id,
                 orderId : item.orderId,
-                items : [item.link, promotionType]
-            }) as DraggableTableItem
-
+                item : item
+            }) as SortableItem<Promotion>
         })
     }
 
@@ -43,26 +49,34 @@ export const useSalesPage = () => {
         queryFn : () => getPromotions(),
         onSuccess : () => {
             setSortablePromotions(mapPromotionsToDraggableItems)
-            console.log(sortablePromotions)
         }
     })
 
+    const deletePromotion = useStore(state => state.deletePromotion)
+    const deletePromotionMutation = useMutation({
+        //@ts-ignore
+        mutationKey : ["delete", "promotion", indexToDelete],
+        mutationFn : () => indexToDelete > 0 && deletePromotion(indexToDelete),
+        onSuccess : () => {
+            queryClient.invalidateQueries(["get", "promotionList"])
+            setIndexToDelete(NOT_EXIST_INDEX)
+        },
+        onError : () => deleteToggle.toggleState()
+    })
+
     const handleDragEnd = (event: DragEndEvent) => {
-        const {active, over} = event
-        if (active.id !== over?.id) {
-            setSortablePromotions((items) => {
-                const oldIndex = items.findIndex((item) => item.orderId == active.id);
-                const newIndex = items.findIndex((item) => item.orderId == over?.id);
-                return arrayMove(items, oldIndex, newIndex);
-            });
-        }
+        const updatedItems = useDragEnd(event, sortablePromotions)
+        setSortablePromotions(updatedItems as SortableItem<Promotion>[])
     }
 
-    const handlePublish = () => setIsPublished(!isPublished)
+    const handleDeleteItem = () => deletePromotionMutation.mutate()
+    const handleAddPromotion = () => router.push(pathname.concat("/new"))
+    const handleChangeOrder = () => console.log("Change order")
 
     return {
         sortablePromotions, getPromotionsQuery,
-        isPublished, handlePublish, handleDragEnd
+        handleDragEnd, handleAddPromotion, handleChangeOrder,
+        handleDeleteItem, indexToDelete, setIndexToDelete, deleteToggle
     }
 
 }

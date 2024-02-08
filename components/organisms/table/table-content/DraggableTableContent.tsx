@@ -11,8 +11,7 @@ const DraggableTableContent = (props: TableContentProps) => {
             items={props.tableContent as DraggableTableItem[]}
         >
             {
-                (props.tableContent as DraggableTableItem[])
-                    .map((item) => (
+                (props.tableContent as DraggableTableItem[]).map((item) => (
                     <SortableWrapper key={item.orderId} id={item.orderId}>
                         <TableRow
                             {...props}

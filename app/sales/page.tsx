@@ -3,47 +3,76 @@
 import {useSalesPage} from "@/app/sales/page.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
-import Text from "@/components/atoms/text/Text";
 import {salesPageTableHeaders} from "@/data/salesPageData";
 import dynamic from "next/dynamic";
 import Loading from "@/components/atoms/loading/Loading";
+import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
+import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
+import React from "react";
+import PromotionRow from "@/components/organisms/rows/promotion-row/PromotionRow";
+import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
 
-const Table = dynamic(
-    () => import("@/components/organisms/table/Table"),
-    {loading : () => <Loading/>})
+const SortableListWrapper = dynamic(
+    () => import("@/components/wrappers/sortable-list-wrapper/SortableListWrapper"),
+    {loading: () => <Loading/>})
 
 const SalesPage = () => {
 
     const {
         sortablePromotions, getPromotionsQuery,
-        isPublished, handlePublish, handleDragEnd
+        handleDragEnd, ...context
     } = useSalesPage()
 
     if (getPromotionsQuery.isSuccess) {
         return (
             <>
+                {
+                    context.indexToDelete > 0 && <InfoActionPopup
+                        header={"Удаление акции"}
+                        message={"Вы уверены, что хотите удалить акцию? Это действие нельзя отменить."}
+                        buttonText={"Удалить акцию"}
+                        onClose={() => context.setIndexToDelete(-1)}
+                        action={context.handleDeleteItem}
+                        snackbarProps={{
+                            isOpen: context.deleteToggle.state,
+                            onClose: context.deleteToggle.toggleState,
+                            message: "Возникла ошибка при удалении акции. Попробуйте еще раз"
+                        }}
+                    />
+                }
                 <HeaderRow
                     header={"Акции"}
                     rightContent={
-                        <div className={"flex flex-row items-center gap-[20px]"}>
-                            {
-                                isPublished && <Text
-                                    className={"text-right text-indicator-new text-[14px]"}
-                                    text={"Все изменения опубликованы"}
-                                />
-                            }
-                            <Button
-                                buttonText={"Опубликовать"}
-                                onClick={handlePublish}
-                            />
-                        </div>
+                        <Button
+                            buttonText={"Изменить порядок"}
+                            onClick={context.handleChangeOrder}
+                        />
                     }
                 />
-                <Table
-                    draggable
-                    handleDragEnd={handleDragEnd}
-                    tableHeader={salesPageTableHeaders}
-                    tableContent={sortablePromotions}
+                <HelperHintRow items={salesPageTableHeaders}/>
+                <SortableListWrapper onDragEnd={handleDragEnd} items={sortablePromotions}>
+                    {
+                        sortablePromotions.map((sortablePromotion, index) => (
+                            <SortableWrapper
+                                id={sortablePromotion.orderId ?? index}
+                                key={sortablePromotion.orderId}
+                            >
+                                <PromotionRow
+                                    promotion={sortablePromotion.item}
+                                    key={sortablePromotion.orderId}
+                                    editableProps={{
+                                        onDelete : context.setIndexToDelete,
+                                        onEdit : (promotionId : number) => console.log(promotionId)
+                                    }}
+                                />
+                            </SortableWrapper>
+                        ))
+                    }
+                </SortableListWrapper>
+                <Button
+                    buttonText={"Добавить"}
+                    onClick={context.handleAddPromotion}
+                    className={"my-7"}
                 />
             </>
         );

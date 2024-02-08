@@ -11,3 +11,20 @@ export type Promotion = {
     discount: number,
     imageUrl: string
 }
+
+export type ReqImagePromotion = {
+    link : string,
+    imageUrl : string
+}
+
+export type ReqProductPromotion = {
+    productId: number,
+    firstPropertyName: string,
+    firstPropertyValue: string,
+    secondPropertyName: string,
+    secondPropertyValue: string,
+    title: string,
+    subtitle: string,
+    imageUrl: string
+}
+

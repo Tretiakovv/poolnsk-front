@@ -7,7 +7,7 @@ import {usePathname, useRouter} from "next/navigation";
 import {useToggle} from "@/utils/hooks/useToggle";
 import {useDragEnd} from "@/utils/hooks/useDragEnd";
 import {DragEndEvent} from "@dnd-kit/core";
-import {APIReqState} from "@/types/dto/APIReqState";
+import {APIResponseState} from "@/types/dto/APIResponseState";
 
 export const useOurProjectsPage = () => {
 
@@ -22,7 +22,10 @@ export const useOurProjectsPage = () => {
 
     const deleteOurProject = useStore(state => state.deleteOurProject)
 
-    const [itemToDelete, setItemToDelete] = useState<TableItem>()
+    const [
+        itemToDelete,
+        setItemToDelete
+    ] = useState<TableItem>()
 
     const {...deleteToggle} = useToggle(false)
 
@@ -51,7 +54,7 @@ export const useOurProjectsPage = () => {
 
     const handleDragEnd = (event : DragEndEvent) => {
         const updatedItems = useDragEnd(event, sortableProjects)
-        setSortableProjects(updatedItems)
+        setSortableProjects(updatedItems as DraggableTableItem[])
     }
 
     const deleteOurProjectMutation = useMutation({
@@ -71,7 +74,10 @@ export const useOurProjectsPage = () => {
         return orderMap
     }
 
-    const [orderState, changeOrderState] = useState<APIReqState>("idle")
+    const [
+        orderState,
+        changeOrderState
+    ] = useState<APIResponseState>("idle")
 
     const changeOrder = useStore(state => state.changeOurProjectOrder)
     const changeOrderMutation = useMutation({

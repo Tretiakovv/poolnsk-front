@@ -16,7 +16,7 @@ const Button = ({type = "button", ...props}: ButtonProps) => {
         "text-main-white text-base font-medium",
         "w-fit px-8 py-3 rounded-xl bg-second-gray-selected",
         "hover:bg-main-blue transition hover:duration-150",
-        props?.className
+        "hover:outline-0 focus:outline-0", props?.className
     ]
 
     return (
