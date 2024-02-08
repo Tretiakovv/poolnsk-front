@@ -11,6 +11,9 @@ import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrap
 import React from "react";
 import PromotionRow from "@/components/organisms/rows/promotion-row/PromotionRow";
 import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
+import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
+import {defaultSnackbarState} from "@/types/dto/APIResponseState";
+import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 
 const SortableListWrapper = dynamic(
     () => import("@/components/wrappers/sortable-list-wrapper/SortableListWrapper"),
@@ -26,6 +29,17 @@ const SalesPage = () => {
     if (getPromotionsQuery.isSuccess) {
         return (
             <>
+                <ErrorSnackbar
+                    message={context.snackbar.snackbarState.message}
+                    isOpen={context.snackbar.snackbarState.state === "error"}
+                    onClose={() => context.snackbar.onChange(defaultSnackbarState)}
+                />
+                <SuccessSnackbar
+                    hasBackIcon={false}
+                    message={context.snackbar.snackbarState.message}
+                    isOpen={context.snackbar.snackbarState.state === "success"}
+                    onClose={() => context.snackbar.onChange(defaultSnackbarState)}
+                />
                 {
                     context.indexToDelete > 0 && <InfoActionPopup
                         header={"Удаление акции"}
@@ -49,7 +63,7 @@ const SalesPage = () => {
                         />
                     }
                 />
-                <HelperHintRow items={salesPageTableHeaders}/>
+                <HelperHintRow draggable items={salesPageTableHeaders}/>
                 <SortableListWrapper onDragEnd={handleDragEnd} items={sortablePromotions}>
                     {
                         sortablePromotions.map((sortablePromotion, index) => (

@@ -35,7 +35,8 @@ export const useOurProjectsPage = () => {
     ] = useState<DraggableTableItem[]>([])
 
     const mapProjectsToDraggableItems = () => {
-        return projects.map((item) => {
+        return projects.sort((fst, snd) => fst.orderId - snd.orderId)
+            .map((item) => {
             return new Object({
                 id : item.id,
                 orderId : item.orderId,

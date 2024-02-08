@@ -20,7 +20,9 @@ export const ourProjectSlice: StateCreator<OurProjectsSlice, [], [], OurProjects
     },
 
     changeOurProjectOrder : async (orderMap : Record<string, string>) => {
-        return api.put("/our-works/change-order", orderMap)
+        return api.put("/our-works/change-order", {
+            entityIdToNewOrderIdMap : orderMap
+        })
     }
 
 })

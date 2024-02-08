@@ -27,7 +27,7 @@ const PromotionRow = ({promotion, ...props}: PromotionRowProps) => {
     const handleEditItem = () => props.editableProps?.onEdit?.(promotion.id)
 
     return (
-        <CatalogItemWrapper {...props}>
+        <CatalogItemWrapper draggable {...props}>
             <div className={"relative w-full flex flex-row items-center justify-between"}>
                 <div className={"flex flex-row items-center gap-[20px]"}>
                     <a href={promotion.link} target={"_blank"} rel={"noopener noreferrer"}>

@@ -11,7 +11,7 @@ export type PromotionsSlice = {
     addImagePromotion : (promo : ReqImagePromotion) => Promise<APIResponse | void>,
     addProductPromotion : (promo : ReqProductPromotion) => Promise<APIResponse | void>,
     deletePromotion : (promoId : number) => Promise<APIResponse | void>,
-    changePromoOrder : (orderMap : Record<string, number>) => Promise<APIResponse | void>,
+    changePromoOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>,
     uploadImage : (file : File) => Promise<string>
 
 }
@@ -40,8 +40,10 @@ export const promotionsSlice : StateCreator<PromotionsSlice, [], [], PromotionsS
         return api.delete(`/promotion/${promoId}`)
     },
 
-    changePromoOrder : async (orderMap : Record<string, number>) => {
-        return api.put("/promotion/change-order", orderMap)
+    changePromoOrder : async (orderMap : Record<string, string>) => {
+        return api.put("/promotion/change-order", {
+            entityIdToNewOrderIdMap : orderMap
+        })
     },
 
     uploadImage : async (file : File) => {

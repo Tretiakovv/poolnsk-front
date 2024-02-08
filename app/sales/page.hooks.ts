@@ -8,6 +8,7 @@ import {useDragEnd} from "@/utils/hooks/useDragEnd";
 import {Promotion} from "@/types/dto/Promotion";
 import {SortableItem} from "@/types/Sortable";
 import {useToggle} from "@/utils/hooks/useToggle";
+import {defaultSnackbarState, SnackbarState} from "@/types/dto/APIResponseState";
 
 const NOT_EXIST_INDEX = -1
 
@@ -24,6 +25,11 @@ export const useSalesPage = () => {
 
     const {...deleteToggle} = useToggle(false)
 
+    const [
+        orderSnackbarState,
+        setOrderSnackbarState
+    ] = useState<SnackbarState>(defaultSnackbarState)
+
     const [promotions, getPromotions] = useStore(
         useShallow(state =>
             [state.promotions, state.getPromotions])
@@ -35,7 +41,8 @@ export const useSalesPage = () => {
     ] = useState<SortableItem<Promotion>[]>([])
 
     const mapPromotionsToDraggableItems = () => {
-        return promotions.map((item : Promotion) => {
+        return promotions.sort((fst, snd) => fst.orderId - snd.orderId)
+            .map((item : Promotion) => {
             return new Object({
                 id : item.id,
                 orderId : item.orderId,
@@ -64,6 +71,20 @@ export const useSalesPage = () => {
         onError : () => deleteToggle.toggleState()
     })
 
+    const changePromoOrder = useStore(state => state.changePromoOrder)
+    const changePromoOrderMutation = useMutation({
+        mutationKey : ["changeOrder", "promotions"],
+        mutationFn : () => changePromoOrder(mapItemsToOrderMap()),
+        onSuccess : () => setOrderSnackbarState({state : "success", message : "Порядок акций успешно изменён"}),
+        onError : () => setOrderSnackbarState({state : "error", message : "Возникла ошибка при изменении порядка акций. Попробуйте ещё раз"}),
+    })
+
+    const mapItemsToOrderMap = () => {
+        const orderMap: Record<string, string> = {}
+        sortablePromotions.forEach((item, index) => orderMap[item.id] = String(index + 1))
+        return orderMap
+    }
+
     const handleDragEnd = (event: DragEndEvent) => {
         const updatedItems = useDragEnd(event, sortablePromotions)
         setSortablePromotions(updatedItems as SortableItem<Promotion>[])
@@ -71,12 +92,13 @@ export const useSalesPage = () => {
 
     const handleDeleteItem = () => deletePromotionMutation.mutate()
     const handleAddPromotion = () => router.push(pathname.concat("/new"))
-    const handleChangeOrder = () => console.log("Change order")
+    const handleChangeOrder = () => changePromoOrderMutation.mutate()
 
     return {
         sortablePromotions, getPromotionsQuery,
         handleDragEnd, handleAddPromotion, handleChangeOrder,
-        handleDeleteItem, indexToDelete, setIndexToDelete, deleteToggle
+        handleDeleteItem, indexToDelete, setIndexToDelete, deleteToggle,
+        snackbar : {snackbarState : orderSnackbarState, onChange : setOrderSnackbarState}
     }
 
 }
