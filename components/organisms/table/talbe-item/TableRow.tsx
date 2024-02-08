@@ -28,9 +28,7 @@ const TableRow = (props: TableItemProps) => {
 
     const context = useTableRow(props.tableItem.id)
 
-    const handleItemClick = () => {
-        if (props.onItemClick) props.onItemClick(props.tableItem.id)
-    }
+    const handleItemClick = () => props.onItemClick?.(props.tableItem.id)
 
     const handleDeleteClick = () => {
         if (props.editableProps?.onDelete) props.editableProps.onDelete(props.tableItem)
@@ -38,11 +36,8 @@ const TableRow = (props: TableItemProps) => {
 
 
     return (
-        <CatalogItemWrapper {...props}>
-            <div
-                onClick={handleItemClick}
-                className={"relative w-full flex flex-row items-center justify-between"}
-            >
+        <CatalogItemWrapper onClick={handleItemClick} {...props}>
+            <div className={"relative w-full flex flex-row items-center justify-between"}>
                 <div className={"flex flex-row items-center gap-[20px]"}>
                     {
                         props.tableItem?.items?.map((item) => {

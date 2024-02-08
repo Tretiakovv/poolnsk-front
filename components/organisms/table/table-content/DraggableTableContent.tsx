@@ -15,11 +15,7 @@ const DraggableTableContent = (props: TableContentProps) => {
                     <SortableWrapper key={item.orderId} id={item.orderId}>
                         <TableRow
                             {...props}
-                            onItemClick={() => {
-                                if (props.onItemClick) {
-                                    props.onItemClick(item.id)
-                                }
-                            }}
+                            onItemClick={() => props.onItemClick?.(item.id)}
                             tableItem={item}
                         />
                     </SortableWrapper>

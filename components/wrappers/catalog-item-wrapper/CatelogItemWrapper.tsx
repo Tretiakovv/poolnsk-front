@@ -7,7 +7,8 @@ import {SortableProps} from "@/types/components/SortableProps";
 type CatalogItemWrapperProps = {
     children: React.ReactNode,
     draggable?: boolean,
-    rightContent?: React.ReactNode
+    rightContent?: React.ReactNode,
+    onClick : () => void,
 } & SortableProps
 
 const CatalogItemWrapper = ({draggable = false, ...props}: CatalogItemWrapperProps) => {
@@ -20,7 +21,7 @@ const CatalogItemWrapper = ({draggable = false, ...props}: CatalogItemWrapperPro
 
     return (
         <div className={"mx-[-30px]"}>
-            <div className={cn(mainWrapperCV)}>
+            <div className={cn(mainWrapperCV)} onClick={props.onClick}>
                 <div className={"w-full flex flex-row items-center gap-[40px]"}>
                     {
                         draggable && <div

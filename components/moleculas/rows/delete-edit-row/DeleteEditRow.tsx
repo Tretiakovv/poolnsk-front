@@ -6,9 +6,15 @@ export type DeleteEditRowProps = {
 }
 
 const DeleteEditRow = (props : DeleteEditRowProps) => {
+
+    const handleDelete = (event : Event) => {
+        event.stopPropagation()
+        props.onDelete()
+    }
+
     return (
         <div className={"flex flex-row items-center gap-2"}>
-            <DeleteButton onClick={props.onDelete}/>
+            <DeleteButton onClick={handleDelete}/>
         </div>
     );
 };
