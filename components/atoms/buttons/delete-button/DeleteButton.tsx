@@ -12,8 +12,10 @@ const DeleteButton = ({onClick} : {onClick : () => void}) => {
 
     return (
         <div
-            onClick={onClick}
             className={cn(buttonCV)}
+            onClick={e => {
+                e.stopPropagation(); onClick()
+            }}
         >
             <FiTrash2 size={"20px"}/>
         </div>

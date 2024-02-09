@@ -8,7 +8,7 @@ type CatalogItemWrapperProps = {
     children: React.ReactNode,
     draggable?: boolean,
     rightContent?: React.ReactNode,
-    onClick : () => void,
+    onClick ?: () => void,
 } & SortableProps
 
 const CatalogItemWrapper = ({draggable = false, ...props}: CatalogItemWrapperProps) => {
