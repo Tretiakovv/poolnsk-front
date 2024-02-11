@@ -33,9 +33,9 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
     const [name, setName] = useState<string>(defaultProduct?.name ?? "")
     const [info, setInfo] = useState<string>(defaultProduct?.info ?? "")
     const [link, setLink] = useState<string>("")
-    const [price, setPrice] = useState<string>(String(defaultProduct?.price) ?? "")
+    const [price, setPrice] = useState<string>(String(defaultProduct?.price ?? ""))
     const [saleFlag, setSaleFlag] = useState<boolean>(defaultPrice)
-    const [saleValue, setSaleValue] = useState<string>(String(defaultProduct?.discount) ?? "")
+    const [saleValue, setSaleValue] = useState<string>(String(defaultProduct?.discount ?? ""))
 
     const addProduct = useStore(state => state.addProduct)
 
