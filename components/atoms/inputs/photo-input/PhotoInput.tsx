@@ -42,8 +42,8 @@ const PhotoInput = (props: PhotoInputProps) => {
     const handleClick = () => inputRef.current?.click()
 
     return (
-        <div className={"flex flex-col gap-2"}>
-            <div className={"flex flex-col gap-4"}>
+        <div className={"w-full flex flex-col gap-2"}>
+            <div className={"w-full flex flex-col gap-4"}>
                 {
                     props.labelText && <Text
                         text={props.labelText}

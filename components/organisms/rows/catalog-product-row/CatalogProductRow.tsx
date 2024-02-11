@@ -9,7 +9,8 @@ import DeleteEditRow from "@/components/moleculas/rows/delete-edit-row/DeleteEdi
 
 type CatalogProductRowProps = {
     product : ProductShort
-    onDelete : (productId : number) => void
+    onDelete : (productId : number) => void,
+    onEdit : (productId : number) => void
 } & SortableProps
 
 const CatalogProductRow = ({product, ...props} : CatalogProductRowProps) => {
@@ -30,7 +31,10 @@ const CatalogProductRow = ({product, ...props} : CatalogProductRowProps) => {
                     ))
                 }
             </div>
-            <DeleteEditRow onDelete={() => props.onDelete(product.id)}/>
+            <DeleteEditRow
+                onDelete={() => props.onDelete(product.id)}
+                onEdit={() => props.onEdit(product.id)}
+            />
         </CatalogItemWrapper>
     );
 

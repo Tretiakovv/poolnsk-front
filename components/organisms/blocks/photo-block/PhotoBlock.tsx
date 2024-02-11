@@ -4,13 +4,13 @@ import Text from "@/components/atoms/text/Text";
 import {cn} from "@/utils/cn";
 import {DraggableTableItem} from "@/types/TableTypes";
 import PhotoRow from "@/components/organisms/rows/photo-row/PhotoRow";
-import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
+import ActionButton from "@/components/atoms/buttons/delete-button/ActionButton";
 import AddPhotoBlock from "@/components/organisms/blocks/add-photo-block/AddPhotoBlock";
 
 type PhotoBlockProps = {
     photos: DraggableTableItem[],
-    onDelete: (item: DraggableTableItem) => void,
-    onAdd : (file : File | undefined) => void
+    onDelete: (item: DraggableTableItem, index : number) => void,
+    onAdd : (file : File) => void
 }
 
 const PhotoBlock = (props: PhotoBlockProps) => {
@@ -29,22 +29,21 @@ const PhotoBlock = (props: PhotoBlockProps) => {
                     className={"text-base text-second-gray"}
                 />
             }
-            <div className={"flex flex-col gap-5"}>
+            <div className={"w-full flex flex-col gap-5"}>
                 {
-                    props.photos.map((item) => (
+                    props.photos.map((item, index) => (
                         <PhotoRow
+                            key={index}
                             photoItem={item}
                             rightContent={
-                                <DeleteButton
-                                    onClick={() => props.onDelete(item)}
+                                <ActionButton
+                                    onClick={() => props.onDelete(item, index)}
                                 />
                             }
                         />
                     ))
                 }
-                <AddPhotoBlock
-                    handleAddPhoto={props.onAdd}
-                />
+                <AddPhotoBlock handleAddPhoto={props.onAdd}/>
             </div>
         </div>
     )

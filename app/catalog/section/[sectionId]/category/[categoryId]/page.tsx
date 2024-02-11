@@ -56,6 +56,7 @@ const CatalogProductsPage = ({params}: {
                     sortableItems.map((item, index) => (
                         <SortableWrapper key={item.orderId} id={item.orderId ?? index}>
                             <CatalogProductRow
+                                onEdit={context.handleEditItem}
                                 onDelete={context.setItemToDelete}
                                 key={item.orderId}
                                 product={item}

@@ -1,44 +1,25 @@
-import { ValueType } from "../ValueType"
-
-export type CategoryFull = {
-    id : number,
-    name : string,
-    orderId : number,
-    notToDeleteFlag : boolean,
-    topPropertiesIdList : ProductProperty[],
-    properties : ProductProperty[],
-    products : Product[]
-}
 
 export type ProductProperty = {
     id : number,
-    name : string,
-    valueType : ValueType
+    value : string
+}
+
+export type ExtraProductProperty = {
+    propertyName : string,
+    value : string
 }
 
 export type Product = {
     id : number,
     name : string,
-    orderId : number,
+    orderId ?: number,
     price : number,
     discount : number,
     deleted : boolean,
-    filledProperties : FilledProperty[],
-    extraPropertyList : ExtraProperty[],
+    propertyMap : ProductProperty[],
+    extraPropertyList : ExtraProductProperty[],
     info : string,
-    photoList : string[]
-}
-
-export type FilledProperty = {
-    id : number,
-    property : ProductProperty,
-    value : number | string
-}
-
-export type ExtraProperty = {
-    id : number,
-    name : string,
-    value : number | string
+    imageUrlList : string[]
 }
 
 export type ProductShort = {

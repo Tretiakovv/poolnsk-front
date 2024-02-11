@@ -2,10 +2,11 @@ import {APIResponse} from "@/types/APIResponse";
 import {StateCreator} from "zustand";
 import {api} from "@/api/api";
 import {ResponseChar} from "@/types/ResponseChar";
-import {ProductShort} from "@/types/dto/Product";
+import {Product, ProductShort} from "@/types/dto/Product";
 
 export type ProductSlice = {
 
+    product : Product,
     products : ProductShort[],
     characteristics : ResponseChar[],
     photoNames : string[],
@@ -15,13 +16,26 @@ export type ProductSlice = {
     addProduct : (data : any) => Promise<APIResponse | void>,
     getProducts : (categoryId : number) => Promise<APIResponse | void>,
     deleteProduct : (productId : number) => Promise<APIResponse | void>,
+    editProduct : (product : Product) => Promise<APIResponse | void>,
+    getProduct : (productId : number) => Promise<APIResponse | void>
 
     changeProductOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
 
 }
 
-export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (set, get) => ({
+export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (set) => ({
 
+    product : {
+        id: 0,
+        name: "",
+        price: 0,
+        discount: 0,
+        deleted: false,
+        propertyMap: [],
+        extraPropertyList: [],
+        info: "",
+        imageUrlList: []
+    },
     products : [],
     characteristics : [],
     photoNames : [],
@@ -77,6 +91,15 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
         return api.delete(`/product/${productId}`)
             .then(response => response.data as APIResponse)
             .catch(error => error as APIResponse)
+    },
+
+    editProduct : async (product : Product) => {
+        return api.post("/product/edit", product)
+    },
+
+    getProduct : async (productId : number) => {
+        return api.get(`/product/${productId}`)
+            .then(response => set({product : response.data.payload}))
     }
 
 })

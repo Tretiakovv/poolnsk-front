@@ -18,7 +18,7 @@ import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrap
 import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
-import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
+import ActionButton from "@/components/atoms/buttons/delete-button/ActionButton";
 import SuccessSnackbar from "@/components/moleculas/snackbars/success-back-snackbar/SuccessSnackbar";
 import ErrorSnackbar from "@/components/moleculas/snackbars/error-snackbar/ErrorSnackbar";
 
@@ -148,7 +148,7 @@ const NewCategoryPage = ({params} : {
                                     key={item.orderId}
                                     characteristic={item}
                                     rightContent={
-                                        <DeleteButton
+                                        <ActionButton
                                             onClick={() => context.handleDeleteCharacteristic(item)}
                                         />
                                     }

@@ -5,8 +5,10 @@ import {DraggableTableItem} from "@/types/TableTypes";
 import {useShallow} from "zustand/react/shallow";
 import {useStore} from "@/store/store";
 import {useMutation, useQuery, useQueryClient} from "react-query";
+import {Product} from "@/types/dto/Product";
+import {ResponseChar} from "@/types/ResponseChar";
 
-export const useNewProductPage = (sectionId: number, categoryId: number) => {
+export const useProductPage = (categoryId: number, defaultProduct ?: Product) => {
 
     const queryClient = useQueryClient()
 
@@ -26,14 +28,15 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         {name: "EURO", value: "Евро"},
     ]
 
-    const [name, setName] = useState<string>("")
-    const [info, setInfo] = useState<string>("")
-    const [link, setLink] = useState<string>("")
-    const [price, setPrice] = useState<string>("")
-    const [saleFlag, setSaleFlag] = useState<boolean>(false)
-    const [saleValue, setSaleValue] = useState<string>("")
+    const defaultPrice = (defaultProduct?.discount !== 0) ?? false
 
-    const photoNames = useStore(state => state.photoNames)
+    const [name, setName] = useState<string>(defaultProduct?.name ?? "")
+    const [info, setInfo] = useState<string>(defaultProduct?.info ?? "")
+    const [link, setLink] = useState<string>("")
+    const [price, setPrice] = useState<string>(String(defaultProduct?.price) ?? "")
+    const [saleFlag, setSaleFlag] = useState<boolean>(defaultPrice)
+    const [saleValue, setSaleValue] = useState<string>(String(defaultProduct?.discount) ?? "")
+
     const addProduct = useStore(state => state.addProduct)
 
     const [
@@ -46,10 +49,25 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         setProductChars
     ] = useState<ProductCharacteristic[]>([])
 
+    const mapExtraPropertiesToTableItems = () : DraggableTableItem[] => {
+        console.log(defaultProduct)
+        if (!defaultProduct) return []
+        else {
+            const draggableItems : DraggableTableItem[] = defaultProduct.extraPropertyList.map((extraProperty, index) => {
+                return {
+                    id: index, orderId: index + 1,
+                    items: Object.values(extraProperty)
+                } as DraggableTableItem
+            })
+            console.log(draggableItems)
+            return draggableItems
+        }
+    }
+
     const [
         productCharTableItems,
         setProductCharTableItems
-    ] = useState<DraggableTableItem[]>([])
+    ] = useState<DraggableTableItem[]>(mapExtraPropertiesToTableItems)
 
     const handleAddProductCharacteristic = (productChar: ProductCharacteristic) => {
         setProductChars(state => [...state, productChar])
@@ -92,16 +110,16 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
     )
 
     const mapCharToMap = () => {
-        const newItems = chars.map((item) => {
-            return {id: item.id, value: ""}
-        })
+        const mapFn = (item : ResponseChar) => {return {id: item.id, value: "" }}
+        const newItems = defaultProduct ? defaultProduct.propertyMap : chars.map(mapFn)
         setCharMap(newItems)
     }
 
     const getCharsQuery = useQuery({
         queryKey: ["get", "chars", categoryId],
         queryFn: () => getChars(categoryId),
-        onSuccess: () => mapCharToMap()
+        onSuccess: () => mapCharToMap(),
+        refetchOnWindowFocus: false
     })
 
     const [
@@ -109,17 +127,42 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
         setCurrency
     ] = useState<Option | undefined>(undefined)
 
+    const [images, downloadImage] = useStore(
+        useShallow(state => [state.files, state.downloadImage])
+    )
+
+    const downloadImages = () => {
+        if (defaultProduct?.imageUrlList.length === 0) return
+        else {
+            const imageUrlList = defaultProduct?.imageUrlList!!
+            imageUrlList.forEach(uuid => downloadImage(uuid))
+        }
+    }
+
     const [
         photos,
         setPhotos
     ] = useState<File[]>([])
 
     const [
+        UUID_photos,
+        setUUID_photos
+    ] = useState<string[]>(defaultProduct?.imageUrlList ?? [])
+
+    const uploadImage = useStore(state => state.uploadImage)
+    const uploadImageMutation = useMutation({
+        //@ts-ignore
+        mutationKey: ["post", "image"],
+        mutationFn: uploadImage,
+        onSuccess: (UUID_photo: string) => setUUID_photos(state => [...state, UUID_photo])
+    })
+
+    const [
         tableItems,
         setTableItems
     ] = useState<DraggableTableItem[]>([])
 
-    const handleAddPhoto = (photo: File | undefined) => {
+    const handleAddPhoto = (photo: File) => {
         if (photo) {
             setPhotos(state => [...state, photo])
             const tableItem: DraggableTableItem = {
@@ -128,10 +171,11 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
                 items: [photo.name]
             }
             setTableItems(state => [...state, tableItem])
+            uploadImageMutation.mutate(photo)
         }
     }
 
-    const handleDeletePhoto = (itemToDelete: DraggableTableItem) => {
+    const handleDeletePhoto = (itemToDelete: DraggableTableItem, indexToDelete: number) => {
         const preparedTableItems = tableItems.map((item) => {
             if (item.id != itemToDelete.id) {
                 return {...item, orderId: item.orderId - 1}
@@ -141,6 +185,7 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
             return item.id != itemToDelete.id
         })
         setTableItems(filteredTableItems)
+        setUUID_photos(state => state.filter((_, index) => index !== indexToDelete))
         setPhotos(state => state.filter((item) => item.name !== itemToDelete.items[0]))
     }
 
@@ -176,7 +221,7 @@ export const useNewProductPage = (sectionId: number, categoryId: number) => {
             propertyMap: propertyMap,
             extraPropertyMap: extraPropMap,
             info: info,
-            imageUrlList: photoNames
+            imageUrlList: UUID_photos
         }
 
         addProductMutation.mutate(finalData)

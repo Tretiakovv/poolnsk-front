@@ -11,7 +11,7 @@ import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/Sor
 import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
-import DeleteButton from "@/components/atoms/buttons/delete-button/DeleteButton";
+import ActionButton from "@/components/atoms/buttons/delete-button/ActionButton";
 import SelectInput from "@/components/atoms/inputs/SelectInput";
 import {Option} from "@/types/Option";
 import {
@@ -161,7 +161,7 @@ const NewProjectPage = () => {
                                     key={item.orderId}
                                     characteristic={item}
                                     rightContent={
-                                        <DeleteButton
+                                        <ActionButton
                                             onClick={() => context.handleDeleteOurProjectChar(item)}
                                         />
                                     }

@@ -88,11 +88,12 @@ export const useCatalogProductsPage = (sectionId : number, categoryId : number) 
     const handleEditClick = (itemId : number) => console.log("EDIT CLICK")
     const handleDeleteClick = () => itemToDelete && deleteProductMutation.mutate(itemToDelete)
     const handleAddProduct = () => router.push(pathName.concat("/new"))
+    const handleEditItem = (productId : number) => router.push(pathName.concat(`/product/${productId}`))
 
     return {
         sortableItems, handleEditClick, handleDeleteClick, handleAddProduct,
         getProductsQuery, getCategoriesQuery, categoryName, handleDragEnd,
-        handleChangeOrder, itemToDelete, setItemToDelete
+        handleChangeOrder, itemToDelete, setItemToDelete, handleEditItem
     }
 
 }

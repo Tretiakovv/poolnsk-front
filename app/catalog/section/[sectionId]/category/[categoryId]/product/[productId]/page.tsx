@@ -22,45 +22,42 @@ import TextArea from "@/components/atoms/inputs/text-area/TextArea";
 import ProductCharacteristicBlock
     from "@/components/organisms/blocks/product-characteristic-block/ProductCharacteristicBlock";
 import ProductHelperBottomRow from "@/components/organisms/rows/product-helper-bottom-row/ProductHelperBottomRow";
+import {useEditProductPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/product/[productId]/page.hooks";
+import Loading from "@/components/atoms/loading/Loading";
 
 const helperHintRow: TextItem[] = [
     {text: "Дополнительная характеристика товара"},
     {text: "Текст характеристики"},
 ]
 
-const NewProductPage = ({params}: {
+const EditProductPage = ({params}: {
     params: {
         sectionId: number,
-        categoryId: number
+        categoryId: number,
+        productId : number
     }
 }) => {
 
-    const context = useProductPage(params.categoryId)
+    const editContext = useEditProductPage(params.categoryId, params.productId)
+    const context = useProductPage(params.productId, editContext.product)
 
-    if (context.getCharsQuery.isLoading) {
-        return (
-            <div>
-                Page is loading..
-            </div>
-        )
+    if (editContext.getProductQuery.isLoading || editContext.createContext === undefined) {
+        return <Loading/>
     }
 
-    if (context.getCharsQuery.isSuccess) return (
+    return (
         <>
             <ErrorSnackbar
-                message={"Возникла ошибка при создании товара. Попробуйте снова."}
+                message={"Возникла ошибка при редактировании товара. Попробуйте снова."}
                 isOpen={context.isCreateError}
                 onClose={() => context.setCreateError(false)}
             />
             <SuccessSnackbar
-                message={"Товар был создан успешно! Вы можете вернуться назад."}
+                message={"Товар был изменён успешно! Вы можете вернуться назад."}
                 isOpen={context.isCreateSuccess}
                 onClose={() => context.setCreateSuccess(false)}
             />
-            <HeaderRow
-                header={"Новый товар"}
-                backIcon
-            />
+            <HeaderRow header={editContext.product?.name ?? ""} backIcon/>
             <div className={"w-full flex flex-col gap-[30px] py-[30px]"}>
 
                 <div className={"w-full flex flex-row gap-5 pb-10 border-b-2 border-second-light-blue"}>
@@ -178,4 +175,4 @@ const NewProductPage = ({params}: {
 
 };
 
-export default NewProductPage;
+export default EditProductPage;

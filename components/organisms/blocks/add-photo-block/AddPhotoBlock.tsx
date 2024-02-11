@@ -5,7 +5,7 @@ import Button from "@/components/atoms/buttons/button/Button";
 import {useStore} from "@/store/store";
 
 const AddPhotoBlock = ({handleAddPhoto}: {
-    handleAddPhoto: (photo: File | undefined) => void
+    handleAddPhoto: (photo: File) => void
 }) => {
 
     const [
@@ -13,7 +13,7 @@ const AddPhotoBlock = ({handleAddPhoto}: {
         setPhoto
     ] = useState<File | undefined>(undefined)
 
-    const handleChange = (event : ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const file = event.target.files[0]
             setPhoto(file)
@@ -31,7 +31,6 @@ const AddPhotoBlock = ({handleAddPhoto}: {
                 value={photo}
                 onChange={handleChange}
                 onClear={handleClear}
-                className={"w-[300px]"}
                 hintText={"Фото должно быть не больше 5 МБ"}
             />
 
@@ -39,8 +38,10 @@ const AddPhotoBlock = ({handleAddPhoto}: {
                 className={"h-[60px]"}
                 icon={<FiPlus size={"20px"} className={"stroke-main-white"}/>}
                 onClick={() => {
-                    photo && addPhoto(photo)
-                    handleAddPhoto(photo)
+                    if (photo) {
+                        addPhoto(photo)
+                        handleAddPhoto(photo)
+                    }
                 }}
             />
 
