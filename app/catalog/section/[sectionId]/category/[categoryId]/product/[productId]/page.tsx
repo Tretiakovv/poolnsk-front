@@ -1,6 +1,5 @@
 "use client"
 
-import {useProductPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/new/page.hooks";
 import HeaderRow from "@/components/moleculas/rows/header-row/HeaderRow";
 import TextInput from "@/components/atoms/inputs/text-input/TextInput";
 import HelperHintRow from "@/components/moleculas/rows/helper-hint-row/HelperHintRow";
@@ -11,8 +10,6 @@ import Checkbox from "@/components/atoms/inputs/checkbox/Checkbox";
 import {TextItem} from "@/types/TextItem";
 import React from "react";
 import PhotoBlock from "@/components/organisms/blocks/photo-block/PhotoBlock";
-import SortableListWrapper from "@/components/wrappers/sortable-list-wrapper/SortableListWrapper";
-import SortableWrapper from "@/components/wrappers/sortable-wrapper/SortableWrapper";
 import CategoryCharacteristicRow
     from "@/components/organisms/rows/category-characteristic-row/CategoryCharacteristicRow";
 import ActionButton from "@/components/atoms/buttons/delete-button/ActionButton";
@@ -22,7 +19,9 @@ import TextArea from "@/components/atoms/inputs/text-area/TextArea";
 import ProductCharacteristicBlock
     from "@/components/organisms/blocks/product-characteristic-block/ProductCharacteristicBlock";
 import ProductHelperBottomRow from "@/components/organisms/rows/product-helper-bottom-row/ProductHelperBottomRow";
-import {useEditProductPage} from "@/app/catalog/section/[sectionId]/category/[categoryId]/product/[productId]/page.hooks";
+import {
+    useEditProductPage
+} from "@/app/catalog/section/[sectionId]/category/[categoryId]/product/[productId]/page.hooks";
 import Loading from "@/components/atoms/loading/Loading";
 
 const helperHintRow: TextItem[] = [
@@ -38,10 +37,9 @@ const EditProductPage = ({params}: {
     }
 }) => {
 
-    const editContext = useEditProductPage(params.categoryId, params.productId)
-    const context = useProductPage(params.productId, editContext.product)
+    const context = useEditProductPage(params.categoryId, params.productId)
 
-    if (editContext.getProductQuery.isLoading || editContext.createContext === undefined) {
+    if (context.getProductQuery.isLoading || context.getCharsQuery.isLoading) {
         return <Loading/>
     }
 
@@ -57,7 +55,7 @@ const EditProductPage = ({params}: {
                 isOpen={context.isCreateSuccess}
                 onClose={() => context.setCreateSuccess(false)}
             />
-            <HeaderRow header={editContext.product?.name ?? ""} backIcon/>
+            <HeaderRow header={context.product.name} backIcon/>
             <div className={"w-full flex flex-col gap-[30px] py-[30px]"}>
 
                 <div className={"w-full flex flex-row gap-5 pb-10 border-b-2 border-second-light-blue"}>
@@ -122,6 +120,7 @@ const EditProductPage = ({params}: {
                     </div>
 
                     <TextInput
+                        disabled={!context.saleFlag}
                         value={context.saleValue}
                         labelText={"Размер скидки (в процентах)"}
                         placeholder={"Введите здесь.."}
@@ -140,23 +139,19 @@ const EditProductPage = ({params}: {
                 />
 
                 <HelperHintRow draggable items={helperHintRow}/>
-                <SortableListWrapper items={context.tableItems}>
-                    {
-                        context.productCharTableItems.map((item, index) => (
-                            <SortableWrapper id={item.orderId ?? index}>
-                                <CategoryCharacteristicRow
-                                    key={item.orderId}
-                                    characteristic={item}
-                                    rightContent={
-                                        <ActionButton
-                                            onClick={() => context.handleDeleteProductItem(item)}
-                                        />
-                                    }
+                {
+                    context.productCharTableItems.map((item, index) => (
+                        <CategoryCharacteristicRow
+                            key={index}
+                            characteristic={item}
+                            rightContent={
+                                <ActionButton
+                                    onClick={() => context.handleDeleteProductItem(item)}
                                 />
-                            </SortableWrapper>
-                        ))
-                    }
-                </SortableListWrapper>
+                            }
+                        />
+                    ))
+                }
                 <ProductHelperBottomRow
                     handleAddProduct={context.handleAddProductCharacteristic}
                 />

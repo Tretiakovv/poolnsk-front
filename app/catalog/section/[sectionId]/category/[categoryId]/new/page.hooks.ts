@@ -49,25 +49,10 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
         setProductChars
     ] = useState<ProductCharacteristic[]>([])
 
-    const mapExtraPropertiesToTableItems = () : DraggableTableItem[] => {
-        console.log(defaultProduct)
-        if (!defaultProduct) return []
-        else {
-            const draggableItems : DraggableTableItem[] = defaultProduct.extraPropertyList.map((extraProperty, index) => {
-                return {
-                    id: index, orderId: index + 1,
-                    items: Object.values(extraProperty)
-                } as DraggableTableItem
-            })
-            console.log(draggableItems)
-            return draggableItems
-        }
-    }
-
     const [
         productCharTableItems,
         setProductCharTableItems
-    ] = useState<DraggableTableItem[]>(mapExtraPropertiesToTableItems)
+    ] = useState<DraggableTableItem[]>([])
 
     const handleAddProductCharacteristic = (productChar: ProductCharacteristic) => {
         setProductChars(state => [...state, productChar])

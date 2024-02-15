@@ -17,7 +17,7 @@ export type Product = {
     discount : number,
     deleted : boolean,
     propertyMap : ProductProperty[],
-    extraPropertyList : ExtraProductProperty[],
+    extraPropertyMap : ExtraProductProperty[],
     info : string,
     imageUrlList : string[]
 }

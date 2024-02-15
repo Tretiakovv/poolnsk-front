@@ -1,17 +1,17 @@
 import React from 'react';
 import {SortableProps} from "@/types/components/SortableProps";
-import {DraggableTableItem} from "@/types/TableTypes";
+import {TableItem} from "@/types/TableTypes";
 import CatalogItemWrapper from "@/components/wrappers/catalog-item-wrapper/CatelogItemWrapper";
 import Text from "@/components/atoms/text/Text";
 
 type PhotoRowProps = {
-    photoItem : DraggableTableItem,
+    photoItem : TableItem,
     rightContent?: React.ReactNode
 } & SortableProps
 
 const PhotoRow = (props : PhotoRowProps) => {
     return (
-        <CatalogItemWrapper draggable {...props}>
+        <CatalogItemWrapper {...props}>
             <div className={"w-full flex flex-row items-center gap-[20px]"}>
                 <Text
                     text={props.photoItem.items[0] as string}

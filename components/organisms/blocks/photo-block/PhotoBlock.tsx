@@ -2,14 +2,14 @@ import React from 'react';
 import {ClassValue} from "clsx";
 import Text from "@/components/atoms/text/Text";
 import {cn} from "@/utils/cn";
-import {DraggableTableItem} from "@/types/TableTypes";
+import {TableItem} from "@/types/TableTypes";
 import PhotoRow from "@/components/organisms/rows/photo-row/PhotoRow";
 import ActionButton from "@/components/atoms/buttons/delete-button/ActionButton";
 import AddPhotoBlock from "@/components/organisms/blocks/add-photo-block/AddPhotoBlock";
 
 type PhotoBlockProps = {
-    photos: DraggableTableItem[],
-    onDelete: (item: DraggableTableItem, index : number) => void,
+    photos: TableItem[],
+    onDelete: (item: TableItem, index : number) => void,
     onAdd : (file : File) => void
 }
 

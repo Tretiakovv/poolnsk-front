@@ -32,7 +32,7 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
         discount: 0,
         deleted: false,
         propertyMap: [],
-        extraPropertyList: [],
+        extraPropertyMap: [],
         info: "",
         imageUrlList: []
     },
