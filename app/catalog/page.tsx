@@ -7,7 +7,7 @@ import {useCatalogSectionsPage} from "@/app/catalog/page.hooks";
 import {ClassValue} from "clsx";
 import {cn} from "@/utils/cn";
 import {FiPlus} from "react-icons/fi";
-import React from "react";
+import React, {useEffect} from "react";
 import InfoActionPopup from "@/components/organisms/popups/info-action-popup/InfoActionPopup";
 import dynamic from "next/dynamic";
 import Loading from "@/components/atoms/loading/Loading";
@@ -29,6 +29,10 @@ const CatalogSectionsPage = () => {
         "flex flex-row items-center gap-2 bg-second-light-blue",
         "text-main-black hover:bg-main-blue hover:text-main-white"
     ]
+
+    useEffect(() => {
+        console.log(sortableSections)
+    }, [sortableSections])
 
     if (getSectionsQuery.isSuccess) {
         return (

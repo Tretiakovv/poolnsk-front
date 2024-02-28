@@ -38,6 +38,7 @@ const ControlPanelRequestsPage = () => {
                     />
                 </div>
                 <Table
+                    reqType={context.activeRequestType}
                     items={context.requests}
                     classNames={{text : `${context.itemWidth}`}}
                     tableHeader={tableHeaders}

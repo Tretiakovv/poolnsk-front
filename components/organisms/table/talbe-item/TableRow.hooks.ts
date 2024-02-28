@@ -2,7 +2,7 @@ import {useStore} from "@/store/store";
 import {useShallow} from "zustand/react/shallow";
 import {useMutation, useQueryClient} from "react-query";
 
-export const useTableRow = (requestId : number) => {
+export const useTableRow = (type: "call" | "question" = "call", requestId: number) => {
 
     const queryClient = useQueryClient()
 
@@ -13,20 +13,20 @@ export const useTableRow = (requestId : number) => {
     )
 
     const markRequestProcessedQuery = useMutation({
-        mutationKey : ["put", "processRequest", requestId],
-        mutationFn : () => markRequestProcessed(requestId),
-        onSuccess : () => {
-            queryClient.invalidateQueries({queryKey : ["get", "requestList", false]})
-            queryClient.invalidateQueries({queryKey : ["get", "requestList", null]})
+        mutationKey: ["put", "processRequest", requestId],
+        mutationFn: () => markRequestProcessed(requestId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["get", "requestList", type, false]})
+            queryClient.invalidateQueries({queryKey: ["get", "requestList", type, null]})
         }
     })
 
     const markRequestNotProcessedQuery = useMutation({
-        mutationKey : ["put", "notProcessRequest", requestId],
-        mutationFn : () => markRequestNotProcessed(requestId),
-        onSuccess : () => {
-            queryClient.invalidateQueries({queryKey : ["get", "requestList", true]})
-            queryClient.invalidateQueries({queryKey : ["get", "requestList", null]})
+        mutationKey: ["put", "notProcessRequest", requestId],
+        mutationFn: () => markRequestNotProcessed(requestId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: ["get", "requestList", type, true]})
+            queryClient.invalidateQueries({queryKey: ["get", "requestList", type, null]})
         }
     })
 

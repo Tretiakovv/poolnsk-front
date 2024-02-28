@@ -97,7 +97,7 @@ export const useControlPanelRequestsPage = () => {
     }
 
     const getRequestsQuery = useQuery({
-        queryKey: ["get", "requestList", activeProcessedFilter],
+        queryKey: ["get", "requestList", activeRequestType, activeProcessedFilter],
         queryFn: () => getRequests(activeRequestType, activeProcessedFilter),
         onSuccess: () => setRequestTableItems(mapRequestsToTableItems)
     })

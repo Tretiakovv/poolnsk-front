@@ -22,6 +22,7 @@ type EditableProps = {
 }
 
 export type TableContentProps = {
+    reqType ?: "call" | "question" | "service",
     tableContent: (TableItem | DraggableTableItem)[],
     onItemClick?: (itemId: number) => void,
     handleDragEnd?: (event: DragEndEvent) => void,

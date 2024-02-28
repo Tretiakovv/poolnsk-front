@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {ClassValue} from "clsx";
 import CatalogItemWrapper from "@/components/wrappers/catalog-item-wrapper/CatelogItemWrapper";
 import Text from "@/components/atoms/text/Text";
@@ -7,7 +7,7 @@ import {TableItemProps} from "@/types/TableTypes";
 import {useTableRow} from "@/components/organisms/table/talbe-item/TableRow.hooks";
 import Button from "@/components/atoms/buttons/button/Button";
 import DeleteEditRow from "@/components/moleculas/rows/delete-edit-row/DeleteEditRow";
-import {TextLinkItem} from "@/types/TextLinkItem";
+import RequestPopup from "@/components/organisms/popups/request-popup/RequestPopup";
 
 const TableRow = (props: TableItemProps) => {
 
@@ -26,7 +26,7 @@ const TableRow = (props: TableItemProps) => {
         "hover:text-main-white transition hover:duration-200"
     ]
 
-    const context = useTableRow(props.tableItem.id)
+    const context = useTableRow(props.reqType, props.tableItem.id)
 
     const handleItemClick = () => props.onItemClick?.(props.tableItem.id)
 
@@ -34,55 +34,69 @@ const TableRow = (props: TableItemProps) => {
         if (props.editableProps?.onDelete) props.editableProps.onDelete(props.tableItem)
     }
 
+    const [popupOpen, setPopupOpen] = useState<boolean>(false)
+    const handleToggleState = () => setPopupOpen(!popupOpen)
 
     return (
-        <CatalogItemWrapper onClick={handleItemClick} {...props}>
-            <div className={"relative w-full flex flex-row items-center justify-between"}>
-                <div className={"flex flex-row items-center gap-[20px]"}>
+        <>
+
+            {
+                popupOpen && <RequestPopup
+                    type={props.reqType}
+                    reqId={props.tableItem.id}
+                    onClose={handleToggleState}
+                />
+            }
+
+            <CatalogItemWrapper onClick={handleItemClick} {...props}>
+                <div className={"relative w-full flex flex-row items-center justify-between"}>
+                    <div className={"flex flex-row items-center gap-[20px]"}>
+                        {
+                            props.tableItem?.items?.map((item) => {
+                                if (item && typeof item !== "string") {
+                                    return (
+                                        <div onClick={handleToggleState}>
+                                            <Text
+                                                text={"Открыть комментарий"}
+                                                className={cn(textCV, "text-main-blue")}
+                                            />
+                                        </div>
+                                    )
+                                } else return <Text
+                                    text={item as string ?? "—"}
+                                    className={cn(textCV)}
+                                />
+                            })
+                        }
+                    </div>
                     {
-                        props.tableItem?.items?.map((item) => {
-                            if (item && typeof item !== "string") {
-                                return (
-                                    <div onClick={() => console.log((item as TextLinkItem).link)}>
-                                        <Text
-                                            text={"Открыть комментарий"}
-                                            className={cn(textCV, "text-main-blue")}
+                        props.item && props.item.isProcessed !== undefined && (
+                            <>
+                                {
+                                    props.item.isProcessed ?
+                                        <Button
+                                            className={cn(processButtonCV)}
+                                            buttonText={"Вернуть в обработку"}
+                                            onClick={context.handleNotProcessClick}
+                                        /> :
+                                        <Button
+                                            className={cn(notProcessButtonCV)}
+                                            buttonText={"Обработать"}
+                                            onClick={context.handleProcessClick}
                                         />
-                                    </div>
-                                )
-                            } else return <Text
-                                text={item as string ?? "—"}
-                                className={cn(textCV)}
-                            />
-                        })
+                                }
+                            </>
+                        )
                     }
                 </div>
                 {
-                    props.item && props.item.isProcessed !== undefined && (
-                        <>
-                            {
-                                props.item.isProcessed ?
-                                    <Button
-                                        className={cn(processButtonCV)}
-                                        buttonText={"Вернуть в обработку"}
-                                        onClick={context.handleNotProcessClick}
-                                    /> :
-                                    <Button
-                                        className={cn(notProcessButtonCV)}
-                                        buttonText={"Обработать"}
-                                        onClick={context.handleProcessClick}
-                                    />
-                            }
-                        </>
-                    )
+                    props.editableProps && <DeleteEditRow
+                        onDelete={handleDeleteClick}
+                    />
                 }
-            </div>
-            {
-                props.editableProps && <DeleteEditRow
-                    onDelete={handleDeleteClick}
-                />
-            }
-        </CatalogItemWrapper>
+            </CatalogItemWrapper>
+
+        </>
     );
 
 };
