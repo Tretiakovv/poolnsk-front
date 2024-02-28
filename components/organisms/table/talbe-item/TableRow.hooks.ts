@@ -2,7 +2,7 @@ import {useStore} from "@/store/store";
 import {useShallow} from "zustand/react/shallow";
 import {useMutation, useQueryClient} from "react-query";
 
-export const useTableRow = (type: "call" | "question" = "call", requestId: number) => {
+export const useTableRow = (type: "call" | "question" | "service" = "call", requestId: number) => {
 
     const queryClient = useQueryClient()
 

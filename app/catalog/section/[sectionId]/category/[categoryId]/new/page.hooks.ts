@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {Option} from "@/types/Option";
 import {ProductCharacteristic} from "@/types/ProductCharacteristic";
-import {DraggableTableItem} from "@/types/TableTypes";
+import {DraggableTableItem, TableItem} from "@/types/TableTypes";
 import {useShallow} from "zustand/react/shallow";
 import {useStore} from "@/store/store";
 import {useMutation, useQuery, useQueryClient} from "react-query";
@@ -160,7 +160,7 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
         }
     }
 
-    const handleDeletePhoto = (itemToDelete: DraggableTableItem, indexToDelete: number) => {
+    const handleDeletePhoto = (itemToDelete: DraggableTableItem | TableItem, indexToDelete: number) => {
         const preparedTableItems = tableItems.map((item) => {
             if (item.id != itemToDelete.id) {
                 return {...item, orderId: item.orderId - 1}

@@ -9,7 +9,7 @@ import {ClassValue} from "clsx";
 import {useTableRow} from "@/components/organisms/table/talbe-item/TableRow.hooks";
 
 const RequestPopup = ({type, reqId, onClose}: {
-    type ?: "call" | "question",
+    type ?: "call" | "question" | "service",
     onClose: () => void,
     reqId: number
 }) => {
