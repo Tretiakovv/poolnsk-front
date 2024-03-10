@@ -36,6 +36,7 @@ const HelperBottomRow = ({handleAddCharacteristic}: {
         {name: "STRING", value: "Строковое значение"},
         {name: "FLOAT", value: "Нецелое значение"},
         {name: "INTEGER", value: "Целое значение"},
+        {name: "INVISIBLE", value: "Невидимое значение"},
     ]
 
     const initialState: Characteristic = {isTop: false, name: "", valueType: "INTEGER"}

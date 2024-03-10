@@ -8,7 +8,8 @@ export type SectionSlice = {
     getSections : () => Promise<APIResponse | void>,
     addSection : (name : string) => Promise<APIResponse | void>,
     deleteSection : (sectionId : number) => Promise<APIResponse | void>,
-    changeOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
+    changeOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>,
+    changeSectionName : (sectionId : number, name : string) => Promise<APIResponse>
 }
 
 export const sectionSlice : StateCreator<SectionSlice, [] ,[], SectionSlice> = (set, get) => ({
@@ -38,6 +39,13 @@ export const sectionSlice : StateCreator<SectionSlice, [] ,[], SectionSlice> = (
 
     deleteSection : async (sectionId : number) => {
         return api.delete(`/section/${sectionId}`)
+    },
+
+    changeSectionName : async (sectionId : number, name : string) => {
+        return api.put("/section/change-name", {
+            entityId : sectionId,
+            name : name
+        })
     }
 
 })

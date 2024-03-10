@@ -22,6 +22,22 @@ export const useCatalogProductsPage = (sectionId : number, categoryId : number) 
     ] = useState<number>()
 
     const [
+        categoryToEdit,
+        selectCategoryToEdit
+    ] = useState<number>(0)
+
+    const changeName = useStore(state => state.changeCategoryName)
+
+    const changeNameMutation = useMutation({
+        mutationKey : ["changeName", "category", categoryId],
+        mutationFn : (name : string) => changeName(name, categoryId),
+        onSuccess : () => {
+            queryClient.invalidateQueries(["get", "categories", sectionId])
+            selectCategoryToEdit(0)
+        }
+    })
+
+    const [
         sortableItems,
         setSortableItems
     ] = useState<ProductShort[]>([])
@@ -89,11 +105,13 @@ export const useCatalogProductsPage = (sectionId : number, categoryId : number) 
     const handleDeleteClick = () => itemToDelete && deleteProductMutation.mutate(itemToDelete)
     const handleAddProduct = () => router.push(pathName.concat("/new"))
     const handleEditItem = (productId : number) => router.push(pathName.concat(`/product/${productId}`))
+    const handleChangeName = (name : string) => changeNameMutation.mutate(name)
 
     return {
         sortableItems, handleEditClick, handleDeleteClick, handleAddProduct,
         getProductsQuery, getCategoriesQuery, categoryName, handleDragEnd,
-        handleChangeOrder, itemToDelete, setItemToDelete, handleEditItem
+        handleChangeOrder, itemToDelete, setItemToDelete, handleEditItem,
+        categoryToEdit, selectCategoryToEdit, handleChangeName
     }
 
 }

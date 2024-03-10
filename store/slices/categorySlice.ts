@@ -14,7 +14,8 @@ export type CategorySlice = {
     addCategory : (sectionId : number, name : string, propertyList : Characteristic[]) => Promise<APIResponse | void>,
     deleteCategory : (categoryId : number) => Promise<APIResponse | void>,
 
-    changeCategoryOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>
+    changeCategoryOrder : (orderMap : Record<string, string>) => Promise<APIResponse | void>,
+    changeCategoryName : (name : string, categoryId : number) => Promise<APIResponse | void>,
 
 }
 
@@ -57,6 +58,13 @@ export const categorySlice: StateCreator<CategorySlice, [], [], CategorySlice> =
 
     deleteCategory : async (categoryId : number) => {
         return api.delete(`/category/${categoryId}`)
+    },
+
+    changeCategoryName : async (name : string, categoryId : number) => {
+        return api.put("/category/change-name", {
+            entityId : categoryId,
+            name : name
+        })
     }
 
 })

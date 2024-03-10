@@ -42,14 +42,30 @@ const CatalogCategoriesPage = ({params}: {
                         }}
                     />
                 }
+                {
+                    context.sectionToEdit !== 0 && <InfoActionPopup
+                        header={"Редактирование категории"}
+                        message={"Изменённое название категории увидят все пользователи сайта"}
+                        buttonText={"Подтвердить изменения"}
+                        onClose={() => context.selectSectionToEdit(0)}
+                        onChangeName={context.handleChangeName}
+                    />
+                }
                 <HeaderRow
                     backIcon
                     header={`Категории для раздела "${context.sectionName}"`}
                     rightContent={
-                        <Button
-                            buttonText={"Изменить порядок"}
-                            onClick={context.handleChangeOrder}
-                        />
+                        <div className={"flex flex-row items-center gap-4"}>
+                            <Button
+                                buttonText={"Изменить порядок"}
+                                onClick={context.handleChangeOrder}
+                            />
+                            <Button
+                                className={"bg-second-light-blue text-black hover:text-white"}
+                                buttonText={"Изменить название"}
+                                onClick={() => context.selectSectionToEdit(params.sectionId)}
+                            />
+                        </div>
                     }
                 />
                 <Table
