@@ -10,7 +10,7 @@ export const useControlPanelOrderPage = () => {
     const [
         activeOrderFilter,
         setActiveOrderFilter
-    ] = useState<string>("ALL")
+    ] = useState<OrderStatus>("ALL")
 
     const [orders, getOrders] = useStore(
         useShallow(state =>
@@ -19,12 +19,12 @@ export const useControlPanelOrderPage = () => {
 
     const getOrdersQuery = useQuery({
         queryKey : ["get", "orders", activeOrderFilter],
-        queryFn : () => getOrders(activeOrderFilter.toLowerCase() as OrderStatus, 0, 5)
+        queryFn : () => getOrders(activeOrderFilter as OrderStatus, 0, 5)
     })
 
     const orderFilterData: MultiselectButtonItem[] = [
         {buttonText: "Все", action: () => setActiveOrderFilter("ALL")},
-        {buttonText: "Ожидают подтверждения", action: () => setActiveOrderFilter("IN_PROCESSING")},
+        {buttonText: "Ожидают подтверждения", action: () => setActiveOrderFilter("PROCESSING")},
         {buttonText: "Активные", action: () => setActiveOrderFilter("ACTIVE")},
         {buttonText: "Завершённые", action: () => setActiveOrderFilter("COMPLETE")},
         {buttonText: "Отменённые", action: () => setActiveOrderFilter("CANCEL")},
@@ -40,7 +40,7 @@ export const useControlPanelOrderPage = () => {
     return {
         activeButtonItem, orderFilterData,
         handleSelectOrderFilter, getOrdersQuery,
-        orders
+        orders, activeOrderFilter
     }
 
 }

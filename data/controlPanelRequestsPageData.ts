@@ -5,11 +5,11 @@ export const callTableHeaders : TextItem[] = [
 ]
 
 export const questionTableHeader : TextItem[] = [
-    {text : "Имя"}, {text : "Номер телефона"},
+    {text : "Имя"}, {text : "Почта"},
     {text : "Время"}, {text : "Комментарий"}
 ]
 
 export const serviceTableHeader : TextItem[] = [
-    {text : "Имя"}, {text : "Номер телефона"},
+    {text : "Имя"}, {text : "Почта"},
     {text : "Время"}, {text : "Тип услуги"}, {text : "Комментарий"}
 ]

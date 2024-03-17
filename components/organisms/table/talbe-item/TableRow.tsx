@@ -57,7 +57,7 @@ const TableRow = (props: TableItemProps) => {
                                     return (
                                         <div onClick={handleToggleState}>
                                             <Text
-                                                text={"Открыть комментарий"}
+                                                text={"Смотреть"}
                                                 className={cn(textCV, "text-main-blue")}
                                             />
                                         </div>

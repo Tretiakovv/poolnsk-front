@@ -21,7 +21,10 @@ const ControlPanelOrdersPage = () => {
                     activeItem={context.activeButtonItem}
                     setActiveItem={context.handleSelectOrderFilter}
                 />
-                <OrderList orders={context.orders}/>
+                <OrderList
+                    orders={context.orders}
+                    curOrderStatus={context.activeOrderFilter}
+                />
             </div>
         );
     }

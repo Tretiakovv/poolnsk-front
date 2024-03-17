@@ -16,5 +16,5 @@ export type Order = {
     productMap: Record<string, number>
 }
 
-export type OrderStatus = "IN_PROCESSING" | "CANCEL" | "ACTIVE" | "COMPLETE"
+export type OrderStatus = "PROCESSING" | "CANCEL" | "ACTIVE" | "COMPLETE" | "ALL"
 export type OrderPaymentMode = "ONLINE" | "OFFLINE"

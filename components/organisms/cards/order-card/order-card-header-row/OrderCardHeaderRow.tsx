@@ -15,11 +15,12 @@ type OrderStatusButton = {
     action: () => void
 }
 
-const OrderCardHeaderRow = ({order}: {
+const OrderCardHeaderRow = ({order, curOrderStatus}: {
+    curOrderStatus : OrderStatus,
     order: Order
 }) => {
 
-    const context = useOrderCardHeaderRow(order.id)
+    const context = useOrderCardHeaderRow(order.id, curOrderStatus)
 
     const acceptButtonCV: ClassValue[] = [
         "bg-indicator-green-light hover:bg-indicator-text-green",
@@ -38,7 +39,7 @@ const OrderCardHeaderRow = ({order}: {
 
     // @ts-ignore
     const orderTypeButtonMap: Record<OrderStatus, OrderStatusButton> = {
-        "IN_PROCESSING": {
+        "PROCESSING": {
             name: "Подтвердить", action: context.handleAcceptOrder,
             style: cn(acceptButtonCV)
         },
@@ -91,7 +92,7 @@ const OrderCardHeaderRow = ({order}: {
 
                 <div className={"flex flex-row items-center gap-2"}>
                     {
-                        (order.status === "IN_PROCESSING" || order.status === "ACTIVE") &&
+                        (order.status === "PROCESSING" || order.status === "ACTIVE") &&
                         <>
                             <Button
                                 className={orderTypeButton.style}

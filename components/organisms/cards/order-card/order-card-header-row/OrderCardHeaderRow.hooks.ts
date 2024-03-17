@@ -3,7 +3,7 @@ import {OrderStatus} from "@/types/dto/Order";
 import {useState} from "react";
 import {useMutation, useQueryClient} from "react-query";
 
-export const useOrderCardHeaderRow = (orderId : number) => {
+export const useOrderCardHeaderRow = (orderId : number, curOrderSatus : OrderStatus) => {
 
     const queryClient = useQueryClient()
 
@@ -16,9 +16,9 @@ export const useOrderCardHeaderRow = (orderId : number) => {
 
     const changeOrderStatusMutation = useMutation({
         mutationKey : ["put", "orderStatus", orderId, orderStatus],
-        mutationFn : (orderStatus : OrderStatus) => changeOrderStatus(orderId, orderStatus.toLowerCase() as OrderStatus),
+        mutationFn : (orderStatus : OrderStatus) => changeOrderStatus(orderId, orderStatus),
         onSuccess : () => queryClient.invalidateQueries({
-            queryKey : ["get", "orders", orderStatus]
+            queryKey : ["get", "orders", curOrderSatus]
         }),
     })
 

@@ -77,7 +77,10 @@ export const useControlPanelRequestsPage = () => {
         return requests.map((item) => {
 
             const itemData: (string | TextLinkItem)[] = [
-                item.name, item.phoneNumber ?? "—", item.creationDate.slice(0, 10)
+                item.name,
+                ["question", "service"].includes(activeRequestType)
+                    ? (item.email ?? "—") : (item.phoneNumber ?? "—"),
+                item.creationDate.slice(0, 10)
             ]
 
             switch (item.applicationType.toLowerCase()) {
@@ -86,6 +89,9 @@ export const useControlPanelRequestsPage = () => {
                     break
                 case "service" :
                     itemData.push(item.serviceType)
+                    if (item.message) {
+                        itemData.push({text : item.message, link : ""} as TextLinkItem)
+                    }
             }
 
             return new Object({
