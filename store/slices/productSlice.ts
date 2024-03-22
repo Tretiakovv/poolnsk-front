@@ -28,6 +28,7 @@ export const productSlice : StateCreator<ProductSlice, [], [], ProductSlice> = (
     product : {
         id: 0,
         name: "",
+        vendor : "",
         price: 0,
         discount: 0,
         deleted: false,

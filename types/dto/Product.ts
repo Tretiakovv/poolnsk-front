@@ -12,6 +12,7 @@ export type ExtraProductProperty = {
 export type Product = {
     id : number,
     name : string,
+    vendor : string,
     orderId ?: number,
     price : number,
     discount : number,

@@ -19,6 +19,7 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
         queryFn: () => getProduct(productId),
         onSuccess: () => {
             mapExtraPropertiesToTableItems()
+            setVendor(product.vendor)
             setName(product.name)
             setInfo(product.info)
             setCharMap(product.propertyMap)
@@ -54,6 +55,7 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
     const [info, setInfo] = useState<string>("")
     const [link, setLink] = useState<string>("")
     const [price, setPrice] = useState<string>("")
+    const [vendor, setVendor] = useState<string>("")
     const [saleFlag, setSaleFlag] = useState<boolean>(false)
     const [saleValue, setSaleValue] = useState<string>("")
 
@@ -192,6 +194,7 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
 
         const finalData = {
             id: product.id,
+            vendor : vendor,
             name: name,
             price: +price,
             discount: +saleValue,
@@ -207,6 +210,7 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
 
     return {
         getProductQuery, product,
+        vendor, setVendor,
         name, setName, info, setInfo,
         link, setLink, price, setPrice,
         saleFlag, setSaleFlag, saleValue, setSaleValue,

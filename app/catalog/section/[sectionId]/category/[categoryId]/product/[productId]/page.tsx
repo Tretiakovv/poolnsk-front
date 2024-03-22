@@ -95,6 +95,13 @@ const EditProductPage = ({params}: {
                         numbersOnly
                     />
 
+                    <TextInput
+                        value={context.vendor}
+                        labelText={"Артикул товара"}
+                        placeholder={"Введите здесь.."}
+                        onChange={context.setVendor}
+                    />
+
                     <div className={"w-full grid grid-cols-2 gap-5"}>
                         <div className={"relative col-span-1 flex flex-col gap-[15px]"}>
                             <Text
@@ -110,7 +117,7 @@ const EditProductPage = ({params}: {
                         </div>
 
                         <div className={"col-span-1 flex flex-col gap-4"}>
-                            <Text text={"Есть ли скидка?"} className={"text-[18px] font-semibold"}/>
+                            <Text text={"Скидка"} className={"text-[18px] font-semibold"}/>
                             <Checkbox
                                 className={"h-[52px] flex flex-col justify-center"}
                                 isSelected={context.saleFlag}

@@ -34,6 +34,7 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
     const [info, setInfo] = useState<string>(defaultProduct?.info ?? "")
     const [link, setLink] = useState<string>("")
     const [price, setPrice] = useState<string>(String(defaultProduct?.price ?? ""))
+    const [vendor, setVendor] = useState<string>(String(defaultProduct?.vendor ?? ""))
     const [saleFlag, setSaleFlag] = useState<boolean>(defaultPrice)
     const [saleValue, setSaleValue] = useState<string>(String(defaultProduct?.discount ?? ""))
 
@@ -200,6 +201,7 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
 
         const finalData = {
             categoryId: categoryId,
+            vendor : vendor,
             name: name,
             price: +price,
             discount: +saleValue,
@@ -214,6 +216,7 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
     }
 
     return {
+        vendor, setVendor,
         name, setName,
         info, setInfo,
         link, setLink,

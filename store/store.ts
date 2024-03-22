@@ -8,10 +8,11 @@ import {ControlPanelSlice, controlPanelSlice} from "@/store/slices/controlPanelS
 import {ProductSlice, productSlice} from "@/store/slices/productSlice";
 import {ourProjectSlice, OurProjectsSlice} from "@/store/slices/ourProjectsSlice";
 import {fileSlice, FileSlice} from "@/store/slices/fileSlice";
+import {AuthSlice, authStore} from "@/store/slices/authStore";
 
 type StoreSlices = SectionSlice & CategorySlice &
     PromotionsSlice & ProjectsSlice & WorkersSlice & ControlPanelSlice
-    & ProductSlice & OurProjectsSlice & FileSlice
+    & ProductSlice & OurProjectsSlice & FileSlice & AuthSlice
 
 export const useStore = create<StoreSlices>()
 ((...config) => ({
@@ -23,5 +24,6 @@ export const useStore = create<StoreSlices>()
     ...controlPanelSlice(...config),
     ...productSlice(...config),
     ...ourProjectSlice(...config),
-    ...fileSlice(...config)
+    ...fileSlice(...config),
+    ...authStore(...config)
 }))
