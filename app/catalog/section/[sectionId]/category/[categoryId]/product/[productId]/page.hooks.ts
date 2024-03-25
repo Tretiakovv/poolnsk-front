@@ -23,7 +23,8 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
             setName(product.name)
             setInfo(product.info)
             setCharMap(product.propertyMap)
-            setPrice(String(product.price))
+            setActiveOption(getActiveOption)
+            setPrice(String(product.currencyPrice))
             setSaleFlag(product.discount !== 0)
             setSaleValue(product.discount === 0 ? "" : String(product.discount))
             product.imageUrlList.forEach((uuid) => {
@@ -34,6 +35,14 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
         },
         refetchOnWindowFocus: false
     })
+
+    const getActiveOption = () => {
+        switch (product.currencyType) {
+            case "RUB" : return options[0]
+            case "USD" : return options[1]
+            case "EUR" : return options[2]
+        }
+    }
 
     const [
         isCreateSuccess,
@@ -46,10 +55,12 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
     ] = useState<boolean>(false)
 
     const options: Option[] = [
-        {name: "ROUBLES", value: "Рубли"},
-        {name: "DOLLARS", value: "Доллары"},
-        {name: "EURO", value: "Евро"},
+        {name: "RUB", value: "Рубли"},
+        {name: "USD", value: "Доллары"},
+        {name: "EUR", value: "Евро"},
     ]
+
+    const [activeOption, setActiveOption] = useState<Option>(options[0])
 
     const [name, setName] = useState<string>("")
     const [info, setInfo] = useState<string>("")
@@ -196,7 +207,8 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
             id: product.id,
             vendor : vendor,
             name: name,
-            price: +price,
+            currencyPrice: +price,
+            currencyType : activeOption.name,
             discount: +saleValue,
             propertyMap: propertyMap,
             extraPropertyMap: extraPropMap,
@@ -209,6 +221,7 @@ export const useEditProductPage = (categoryId: number, productId: number) => {
     }
 
     return {
+        activeOption, setActiveOption,
         getProductQuery, product,
         vendor, setVendor,
         name, setName, info, setInfo,

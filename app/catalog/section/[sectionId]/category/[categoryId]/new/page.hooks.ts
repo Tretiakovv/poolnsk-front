@@ -23,17 +23,19 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
     ] = useState<boolean>(false)
 
     const options: Option[] = [
-        {name: "ROUBLES", value: "Рубли"},
-        {name: "DOLLARS", value: "Доллары"},
-        {name: "EURO", value: "Евро"},
+        {name: "RUB", value: "Рубли"},
+        {name: "USD", value: "Доллары"},
+        {name: "EUR", value: "Евро"},
     ]
+
+    const [activeOption, setActiveOption] = useState<Option>(options[0])
 
     const defaultPrice = (defaultProduct?.discount !== 0) ?? false
 
     const [name, setName] = useState<string>(defaultProduct?.name ?? "")
     const [info, setInfo] = useState<string>(defaultProduct?.info ?? "")
     const [link, setLink] = useState<string>("")
-    const [price, setPrice] = useState<string>(String(defaultProduct?.price ?? ""))
+    const [price, setPrice] = useState<string>(String(defaultProduct?.currencyPrice ?? ""))
     const [vendor, setVendor] = useState<string>(String(defaultProduct?.vendor ?? ""))
     const [saleFlag, setSaleFlag] = useState<boolean>(defaultPrice)
     const [saleValue, setSaleValue] = useState<string>(String(defaultProduct?.discount ?? ""))
@@ -203,7 +205,8 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
             categoryId: categoryId,
             vendor : vendor,
             name: name,
-            price: +price,
+            currencyPrice: +price,
+            currencyType: activeOption.name,
             discount: +saleValue,
             propertyMap: propertyMap,
             extraPropertyMap: extraPropMap,
@@ -216,6 +219,7 @@ export const useProductPage = (categoryId: number, defaultProduct ?: Product) =>
     }
 
     return {
+        activeOption, setActiveOption,
         vendor, setVendor,
         name, setName,
         info, setInfo,

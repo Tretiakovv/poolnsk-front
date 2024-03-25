@@ -116,8 +116,8 @@ const NewProductPage = ({params}: {
                             <SelectInput
                                 options={context.options}
                                 placeholder={"Валюта"}
-                                activeOption={context.options[0]}
-                                onSelectOption={() => console.log("Select")}
+                                activeOption={context.activeOption}
+                                onSelectOption={context.setActiveOption}
                             />
                         </div>
 

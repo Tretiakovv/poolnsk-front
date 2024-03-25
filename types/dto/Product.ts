@@ -9,12 +9,15 @@ export type ExtraProductProperty = {
     value : string
 }
 
+export type CurrencyType = "RUB" | "EUR" | "USD"
+
 export type Product = {
     id : number,
     name : string,
     vendor : string,
     orderId ?: number,
-    price : number,
+    currencyType : CurrencyType,
+    currencyPrice : number,
     discount : number,
     deleted : boolean,
     propertyMap : ProductProperty[],
